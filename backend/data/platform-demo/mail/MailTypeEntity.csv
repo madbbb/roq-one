@@ -1,0 +1,7 @@
+key,description
+CONFIRM_MAIL,Confirm email to complete registration
+WELCOME_USER_MAIL,Welcome User after successful registration
+RESET_PASSWORD_MAIL,Reset password
+USER_INVITE_MAIL,Invite user to join project
+USER_INFO_MAIL,Info users that a new user joined
+FILES_NEW_MAIL,Info users that a new user joined

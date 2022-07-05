@@ -1,0 +1,9 @@
+export enum UserInviteSortEnum {
+  CREATED_AT = 'CREATED_AT',
+  UPDATED_AT = 'UPDATED_AT',
+  EMAIL = 'EMAIL',
+  FIRST_NAME = 'FIRST_NAME',
+  LAST_NAME = 'LAST_NAME',
+  LOCALE = 'LOCALE',
+  STATUS = 'STATUS',
+}

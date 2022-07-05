@@ -1,0 +1,4 @@
+notificationType@key,isActive,key
+user-info,TRUE,user-info
+files-new,TRUE,files-new
+chat-new,TRUE,chat-new

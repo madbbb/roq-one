@@ -1,0 +1,9 @@
+export enum UserStatusEnum {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  INVITED = 'INVITED',
+  ACCEPTED = 'ACCEPTED',
+  PENDING = 'PENDING',
+  EXPIRED = 'EXPIRED',
+  CANCELED = 'CANCELED',
+}

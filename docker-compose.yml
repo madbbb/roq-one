@@ -1,0 +1,72 @@
+version: "3"
+services:
+  reverse_proxy:
+    image: nginx:1.23.0-alpine
+    restart: always
+    volumes:
+      - ./frontend/local_reverse_proxy.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "3000:3000"
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: development
+      args:
+        NEXT_PUBLIC_PLATFORM_HOST: ${NEXT_PUBLIC_PLATFORM_HOST}
+        API_KEY: ${API_KEY}
+        TENANT_ID: ${TENANT_ID}
+    volumes:
+      - ./frontend/src:/app/frontend/src
+    restart: always
+    env_file: .env
+    environment:
+      NEXT_PUBLIC_BACKEND_HOST: http://backend:3001
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: development
+    volumes:
+      - ./backend/src:/app/backend/src
+    restart: always
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://roqone:roqone@db:5432/roqone_dev
+      MAX_GRAPHQL_QUERY_DEPTH: 20
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+      - "9229:9229"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 50
+
+  db:
+    image:  postgres:13.1-alpine
+    restart: always
+    volumes:
+      - ./backend/create-dev-db.sh:/docker-entrypoint-initdb.d/create-dev-db.sh
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: roqone_dev,roqone_test
+      POSTGRES_USER: roqone
+      POSTGRES_PASSWORD: roqone
+      PGUSER: roqone
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 10s
+      retries: 50
