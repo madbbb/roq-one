@@ -8,6 +8,7 @@ import { useRouter, useTranslation } from 'modules/common/hooks';
 import { FormattedDate } from 'modules/date-time/components';
 import { FormAlert } from 'modules/forms/components';
 import { ThemeEnum } from 'modules/theme/enums';
+import { UserInviteStatusEnum } from 'modules/user-invites/enums';
 import { UserStatus } from 'modules/users/components/user-status';
 import { UserInterface } from 'modules/users/interfaces';
 import { singleUserSelector } from 'modules/users/selectors';
@@ -56,7 +57,7 @@ export const UsersTable: FunctionComponent = () => {
     [authUser.timezone],
   );
 
-  const renderActiveStatus = (rowData: UserInterface) => <UserStatus status={rowData.active ? 'ACTIVE' : 'INACTIVE'} />;
+  const renderActiveStatus = (rowData: UserInterface) => <UserStatus status={rowData.active ? UserInviteStatusEnum.ACTIVE :  UserInviteStatusEnum.INACTIVE} />;
 
   const renderEmailLink = (rowData: UserInterface) => (
     <RoqLink href={`mailto:${rowData.email}`}>

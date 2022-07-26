@@ -1,8 +1,0 @@
-key,name,description,isSystemManaged
-global_platform_admin,Global Platform Admin,Role for managing platform services,true
-file_management_admin,File Management Admin,Role for managing files,true
-notifications_admin,Notifications Admin,Role for managing notifications,true
-users_admin,Users Admin,Role for managing users,true
-content_admin,Content Admin,Role for managing localization content,true
-mail_admin,Mail Admin,Role for managing mails,true
-chat_admin,Chat Admin,Role for manging chats,true

@@ -28,9 +28,10 @@ export const applicationConfig = registerAs('application', () => ({
     cache: {
       ttl: process.env.ROQ_PLATFORM_SERVICE_ACCOUNT_CACHE_TTL,
       key: process.env.ROQ_PLATFORM_SERVICE_ACCOUNT_TOKEN_CACHE_KEY,
-    }
+    },
   },
   newrelic: process.env.NEW_RELIC_ENABLE === 'true',
+  newRelicConfigLocation: process.env.NEW_RELIC_HOME,
   port: process.env.PORT,
   resetPasswordTokenExpires: parseInt(process.env.RESET_PASSWORD_EXPIRES_HOURS, 10),
   validateEmailTokenExpires: parseInt(process.env.VALIDATE_EMAIL_EXPIRES_HOURS, 10),
@@ -40,8 +41,8 @@ export const applicationConfig = registerAs('application', () => ({
   queryDepthIgnoreFields: process.env.QUERY_DEPTH_IGNORE_FIELDS.split(','),
   platform: {
     userSyncCronInterval: process.env.ROQ_PLATFORM_USER_SYNC_CRON_INTERVAL,
-    host: process.env.ROQ_PLATFORM_HOST,
-    apiUri: process.env.ROQ_PLATFORM_API_URI,
+    host: process.env.ROQ_PLATFORM_URL,
+    url: process.env.ROQ_PLATFORM_HOST,
     authorizationHeader: process.env.ROQ_PLATFORM_AUTHORIZATION_HEADER,
     requestIdHeader: process.env.ROQ_PLATFORM_REQUEST_ID_HEADER,
     requestCallerHeader: process.env.ROQ_PLATFORM_REQUEST_CALLER_HEADER,
@@ -73,10 +74,12 @@ export const applicationConfig = registerAs('application', () => ({
     ...process.env.DB_COLLATION_LOCALES.split(';')
       .map((pair) => {
         const [collation, operators, locale] = pair.split(':');
-        return { [collation]: {
-          locale,
-          operators
-        } };
+        return {
+          [collation]: {
+            locale,
+            operators,
+          },
+        };
       })
       .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
   },
@@ -84,5 +87,6 @@ export const applicationConfig = registerAs('application', () => ({
   importDataConfigs: process.env.IMPORT_DATA_CONFIG.split(';').map((config: string) => {
     const [source, features, platform] = config.split(':');
     return { source, features: features ? features.split(',') : [], isPlatform: platform === 'platform' };
-  })
+  }),
+  isConsoleCommand: process.env.IS_CONSOLE_COMMAND === 'true',
 }));

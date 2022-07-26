@@ -18,14 +18,14 @@ export const useResendForgotPasswordMail = (): UseResendForgotPasswordMailHookIn
       await requestGql<boolean>(
         {
           mutation: gql`
-            mutation SendForgotPasswordMail($input: AuthForgotPasswordDto!) {
-              sendForgotPasswordMail(input: $input)
+            mutation forgotPasswordMutation($input: ForgotPasswordDto!) {
+              forgotPassword(input: $input)
             }
           `,
           variables: { input: { email } },
         },
         null,
-        'sendForgotPasswordMail',
+        'forgotPasswordMutation',
       )
       setIsSent(true);
     } catch (e) {

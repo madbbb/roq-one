@@ -1,8 +1,9 @@
 import { FormikBag, FormikHelpers } from "formik";
 import { useAuth } from "modules/auth/hooks";
 import { isJsonString } from 'modules/common/utils';
+import { SendUserInvitesResponseInterface } from "modules/user-invites/actions";
 import { useCallback, useState } from "react";
-import { useSendInvites, UseSendInvitesResponse } from "views/users/hooks/use-send-invites.hook";
+import { useSendInvites } from "views/users/hooks/use-send-invites.hook";
 import { UserInviteFormValueInterface } from "views/users/partials/invite-list/invite-list.partial";
 
 export interface IBulkInviteResponse {
@@ -23,7 +24,7 @@ export const useSendInvitesForm = (): UseSendInviteFormInterface => {
     setFieldValue,
     setErrors
   }: FormikBag<unknown, UserInviteFormValueInterface>) => {
-    const { errors, success } = await sendInvites(values?.invites) as UseSendInvitesResponse;
+    const { errors, success } = await sendInvites(values?.invites) as SendUserInvitesResponseInterface;
     setResponseCount({
       successCount: success?.length || 0,
       errorCount: errors?.length || 0,

@@ -22,7 +22,6 @@ export const useCancelUserInvite = (): UseCancelUserInviteInterface => {
           }
         `,
         variables: { id },
-        context: { service: 'platform' },
       }),
     );
   };

@@ -1,11 +1,11 @@
 import { Chip } from '@mui/material';
 import { useTranslation } from 'modules/common/hooks';
+import { UserInviteStatusEnum } from 'modules/user-invites/enums';
 import { useUserStatusStyles } from 'modules/users/components/user-status/user-status.styles';
-import { UserStatusEnum } from 'modules/users/enums';
 import React, { FunctionComponent } from 'react';
 
 export interface UserStatusInterface {
-  status?: keyof typeof UserStatusEnum;
+  status?: UserInviteStatusEnum;
 }
 
 export const UserStatus: FunctionComponent<UserStatusInterface> = ({ status }) => {

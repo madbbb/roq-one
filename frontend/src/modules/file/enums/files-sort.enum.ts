@@ -1,6 +1,6 @@
 export enum FilesSortEnum {
-  CREATED_AT = 'CREATED_AT',
-  UPDATED_AT = 'UPDATED_AT',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
   PATH = 'PATH',
   STATUS = 'STATUS',
   SIZE = 'SIZE',

@@ -7,7 +7,7 @@ import {
   IsString,
   IsUUID,
   MaxLength,
-} from 'src/class-validator';
+} from '@roq/class-validator';
 
 @InputType()
 export class BookUpdateDto {

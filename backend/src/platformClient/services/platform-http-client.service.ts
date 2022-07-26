@@ -14,7 +14,7 @@ export class PlatformHttpClientService {
       )}`,
     ).toString('base64');
     this.http = axios.create({
-      baseURL: configService.get('application.platform.host'),
+      baseURL: configService.get('application.platform.url'),
       headers: { [configService.get('application.platform.authorizationHeader')]: `Basic ${base64encodedData}` },
     });
   }

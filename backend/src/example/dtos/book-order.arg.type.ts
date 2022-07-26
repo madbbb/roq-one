@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDefined, IsEnum } from 'src/class-validator';
+import { IsDefined, IsEnum } from '@roq/class-validator';
 import { BookOrderSortEnum } from 'src/example/enums';
 import { OrderEnum } from 'src/library/enums';
 

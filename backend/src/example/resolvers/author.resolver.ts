@@ -11,6 +11,7 @@ import {
 } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Loader } from '@roq/nestjs-dataloader';
+import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
 import {
@@ -23,14 +24,15 @@ import {
 import { BookEntity } from 'src/example/entities';
 import { BookFindQueryInterface } from 'src/example/interfaces';
 import { AuthorBookLoader } from 'src/example/loaders';
-import { mapAuthorToModel, mapBookToModel } from 'src/example/mappers';
 import {
   AuthorModel,
   AuthorPageModel,
+  BookModel,
   BookPageModel,
 } from 'src/example/models';
 import { AuthorRepository } from 'src/example/repositories';
 import { AuthorService } from 'src/example/services';
+import { ArrayLoaderResponseInterface } from 'src/library/interfaces';
 import { ParseUUIDStringPipe } from 'src/library/pipes';
 import { UtilityService } from 'src/library/services';
 
@@ -58,7 +60,7 @@ export class AuthorResolver {
       throw new NotFoundException(`Author with id ${id} not found`);
     }
 
-    return mapAuthorToModel(authorEntity);
+    return plainToClass(AuthorModel, authorEntity);
   }
 
   @Query(() => AuthorPageModel)
@@ -74,7 +76,7 @@ export class AuthorResolver {
     });
     return {
       totalCount,
-      data: authorEntities.map((authorEntity) => mapAuthorToModel(authorEntity)),
+      data: authorEntities.map((authorEntity) => plainToClass(AuthorModel, authorEntity)),
     };
   }
 
@@ -84,7 +86,7 @@ export class AuthorResolver {
     authorData: AuthorCreateDto
   ): Promise<AuthorModel> {
     const authorEntity = await this.authorService.create(authorData);
-    return mapAuthorToModel(authorEntity);
+    return plainToClass(AuthorModel, authorEntity);
   }
 
   @Mutation(() => AuthorModel)
@@ -94,7 +96,7 @@ export class AuthorResolver {
     authorData: AuthorUpdateDto
   ): Promise<AuthorModel> {
     const authorEntity = await this.authorService.update(id, authorData);
-    return mapAuthorToModel(authorEntity);
+    return plainToClass(AuthorModel, authorEntity);
   }
 
   @Mutation(() => ID)
@@ -119,8 +121,7 @@ export class AuthorResolver {
     @Args({ type: () => BookArgType }) args: BookArgType,
     @Parent() authorModel: AuthorModel,
     @Loader(AuthorBookLoader)
-    authorBookLoader: DataLoader<BookFindQueryInterface, BookEntity[]>,
-
+    authorBookLoader: DataLoader<BookFindQueryInterface, ArrayLoaderResponseInterface<BookEntity>>,
     @Info() info: GraphQLResolveInfo
   ): Promise<BookPageModel> {
     const fields = this.utilityService.getInfoFields(info);
@@ -130,8 +131,8 @@ export class AuthorResolver {
       filter: { authorId: { equalTo: authorModel.id } },
     });
     return {
-      totalCount: bookEntities.length,
-      data: bookEntities.map((book) => mapBookToModel(book)),
+      totalCount: bookEntities.count,
+      data: bookEntities.data.map((book) => plainToClass(BookModel, book)),
     };
   }
 }

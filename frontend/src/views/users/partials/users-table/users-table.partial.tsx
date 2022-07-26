@@ -81,7 +81,7 @@ export const UsersTablePartial: FunctionComponent<UsersTablePartialInterface> = 
     t('invite-was-sent-successfully');
   */
 
-  const inviteWasSentGlossary =
+  const inviteWasSentTranslationKey =
     successCount > 1 ? 'invite-was-sent-successfully_plural' : 'invite-was-sent-successfully';
 
   const renderTable = (selectedUserFilter) =>
@@ -170,7 +170,7 @@ export const UsersTablePartial: FunctionComponent<UsersTablePartialInterface> = 
         message={
           successCount > 0 ? (
             <Trans
-              i18nKey={inviteWasSentGlossary}
+              i18nKey={inviteWasSentTranslationKey}
               values={{ count: successCount }}
               components={[
                 null,

@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import { AppModule } from 'src';
+import { AppModule } from 'src/app.module';
 import { getEnvVars } from 'src/library/utilities';
 import { createLogger, LoggerExceptionFilter } from 'src/logger';
 import { LoggingTypeEnum } from 'src/logger/enums';

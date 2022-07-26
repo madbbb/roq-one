@@ -55,11 +55,11 @@ export const Table = <RowData extends object, SortEnum>({
     [fieldSortMap],
   );
   const handleOrderChange = useCallback(
-    (orderedColumnId: number, orderDirection: 'desc' | 'asc') => {
+    (orderedColumnId: number, orderDirection: 'DESC' | 'ASC') => {
       if (!tableColumns[orderedColumnId]) return;
       const sortField = getFieldSortName(tableColumns[orderedColumnId].field) as SortEnum;
       if (!sortField) return;
-      onOrderChange(sortField, orderDirection === 'desc' ? OrderEnum.DESC : OrderEnum.ASC);
+      onOrderChange(sortField, orderDirection === 'DESC' ? OrderEnum.DESC : OrderEnum.ASC);
     },
     [onOrderChange, getFieldSortName, tableColumns],
   );

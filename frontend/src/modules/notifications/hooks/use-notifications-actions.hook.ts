@@ -34,7 +34,6 @@ export const useNotificationsActions = (): UseNotificationsActionsInterface => {
           }
         `,
         variables: { id },
-        context: { service: 'platform' },
       }),
     );
   };
@@ -51,7 +50,6 @@ export const useNotificationsActions = (): UseNotificationsActionsInterface => {
           }
         `,
         variables: { id },
-        context: { service: 'platform' },
       }),
     );
   };
@@ -63,7 +61,6 @@ export const useNotificationsActions = (): UseNotificationsActionsInterface => {
             markAllAsReadNotification
           }
         `,
-        context: { service: 'platform' },
       }),
     );
   };

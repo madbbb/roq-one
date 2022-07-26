@@ -24,11 +24,11 @@ enum OrderEnum {
 }
 
 enum UserTokenOrderSortEnum {
-  CreatedAt = 'CREATED_AT',
-  Token = 'TOKEN',
-  Type = 'TYPE',
-  UpdatedAt = 'UPDATED_AT',
-  ValidTill = 'VALID_TILL'
+  CreatedAt = 'createdAt',
+  Token = 'token',
+  Type = 'type',
+  UpdatedAt = 'updatedAt',
+  ValidTill = 'validTill'
 }
 
 type UserTokenOrderArgType = {

@@ -9,3 +9,5 @@ export { DateFilterArgType } from './date-filter.arg.type';
 export { DeleteArgType } from './delete.arg.type';
 export { DeleteFilterArgType } from './delete-filter.arg.type';
 export { BulkDeleteFilterArgType } from './bulk-delete-filter.arg.type';
+export { BaseBulkFilterArgType } from './base-bulk-filter.arg.type';
+export { IdBulkFilterArgType } from './id-bulk-filter.arg.type';

@@ -20,5 +20,5 @@ export const fetchNotificationsNextPageAction = createAsyncThunk(
     request: FetchNotificationsNextPageRequestInterface,
     thunkApi,
   ): Promise<FetchNotificationsNextPageResponseInterface> =>
-    requestGql<FetchNotificationsNextPageResponseInterface>(request, thunkApi, 'notificationWebs'),
+    requestGql<FetchNotificationsNextPageResponseInterface>(request, thunkApi, 'notificationsInAppForCurrentUser'),
 );

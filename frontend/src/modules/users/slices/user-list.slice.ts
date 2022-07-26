@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { OrderEnum } from 'modules/common/enums';
 import { ComplexError } from 'modules/common/types';
-import { fetchUsersAction } from 'modules/users/actions';
+import { activateUserAction, deactivateUserAction, fetchUsersAction } from 'modules/users/actions';
 import { UsersSortEnum } from 'modules/users/enums';
 import { UserInterface } from 'modules/users/interfaces';
 
@@ -49,6 +49,11 @@ const fetchUsersReducerSuccess = (state = initialState, { payload: { data, total
   state.users = data;
 };
 
+const changeUserActiveStatusReducerSuccess = (state = initialState, { payload: { id, active } }) => {
+  const idx = state.users.findIndex(user => user.id === id);
+  state.users[idx].active = active;
+};
+
 export const userListSlice = createSlice({
   name: 'users',
   initialState,
@@ -76,6 +81,8 @@ export const userListSlice = createSlice({
     [fetchUsersAction.pending.type]: fetchUsersReducerPending,
     [fetchUsersAction.rejected.type]: fetchUsersReducerError,
     [fetchUsersAction.fulfilled.type]: fetchUsersReducerSuccess,
+    [activateUserAction.fulfilled.type]: changeUserActiveStatusReducerSuccess,
+    [deactivateUserAction.fulfilled.type]: changeUserActiveStatusReducerSuccess,
   },
 });
 

@@ -8,16 +8,16 @@ export class UserFileModel {
   @Field(() => ID)
   id: string;
 
-  @Field(() => FileStatusEnum, { nullable: false })
+  @Field(() => FileStatusEnum, { nullable: true })
   status: FileStatusEnum;
 
-  @Field(() => String, { nullable: false })
+  @Field(() => String, { nullable: true })
   name: string;
 
-  @Field(() => JsonObject, { nullable: false })
+  @Field(() => JsonObject, { nullable: true })
   customMetaData: Record<string, unknown>;
 
-  @Field(() => String, { nullable: false })
+  @Field(() => String, { nullable: true })
   contentType: string;
 
   @Field({ nullable: true })
@@ -34,6 +34,6 @@ export class UserFileModel {
   @Field(() => String, { nullable: true })
   uploadUrl?: string;
 
-  @Field(() => Boolean, { nullable: false })
+  @Field(() => Boolean, { nullable: true })
   isPublic: boolean;
 }

@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsBoolean, IsDefined, IsOptional, IsString, MaxLength } from 'src/class-validator';
+import { IsBoolean, IsDefined, IsOptional, IsString, MaxLength } from '@roq/class-validator';
 
 @InputType()
 export class AcceptUserInviteDto {

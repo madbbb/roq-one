@@ -8,7 +8,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-} from 'src/class-validator';
+} from '@roq/class-validator';
 import { Trim } from 'src/library/decorators';
 
 @InputType()

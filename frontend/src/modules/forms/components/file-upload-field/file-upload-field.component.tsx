@@ -53,7 +53,7 @@ export const FileUploadField: React.FC<IProps> = (props) => {
       <FormLabel>{label}</FormLabel>
       <div {...getRootProps()} className={classes.dragZoneWrapper}>
         <Button variant="contained" color="primary" disabled={disabled}>
-          Upload File
+          {t('upload-file-cta')}
           <input {...getInputProps()} />
         </Button>
         {isDragActive || !value.length ? (

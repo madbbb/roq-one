@@ -11,7 +11,6 @@ import { BookArgType, BookBulkArgType, BookCreateDto, BookFileCreateDto, BookUpd
 import { AuthorEntity } from 'src/example/entities';
 import { AuthorFindQueryInterface, BookFileFindQueryInterface } from 'src/example/interfaces';
 import { AuthorLoader, BookFileLoader } from 'src/example/loaders';
-import { mapAuthorToModel, mapBookToModel } from 'src/example/mappers';
 import { AuthorModel, BookFileModel, BookModel, BookPageModel } from 'src/example/models';
 import { BookRepository } from 'src/example/repositories';
 import { BookService } from 'src/example/services';
@@ -44,7 +43,7 @@ export class BookResolver {
       throw new NotFoundException(`Book with id ${id} not found`);
     }
 
-    return mapBookToModel(bookEntity);
+    return plainToClass(BookModel, bookEntity);
   }
 
   @Query(() => BookPageModel)
@@ -60,7 +59,7 @@ export class BookResolver {
     });
     return {
       totalCount,
-      data: bookEntities.map((bookEntity) => mapBookToModel(bookEntity)),
+      data: bookEntities.map((bookEntity) => plainToClass(BookModel, bookEntity)),
     };
   }
 
@@ -70,7 +69,7 @@ export class BookResolver {
     bookData: BookCreateDto,
   ): Promise<BookModel> {
     const bookEntity = await this.bookService.create(bookData);
-    return mapBookToModel(bookEntity);
+    return plainToClass(BookModel, bookEntity);
   }
 
   @Mutation(() => BookModel)
@@ -79,7 +78,7 @@ export class BookResolver {
     @Args({ name: 'book', type: () => BookUpdateDto }) bookData: BookUpdateDto,
   ): Promise<BookModel> {
     const bookEntity = await this.bookService.update(id, bookData);
-    return mapBookToModel(bookEntity);
+    return plainToClass(BookModel, bookEntity);
   }
 
   @Mutation(() => ID)
@@ -123,7 +122,7 @@ export class BookResolver {
       filter: { id: { equalTo: bookModel.authorId } },
       fields,
     });
-    return mapAuthorToModel(authorEntity);
+    return plainToClass(AuthorModel, authorEntity);
   }
 
   @ResolveField(() => [BookFileModel])

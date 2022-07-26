@@ -1,2 +1,0 @@
-eventType,consumer,condition,parameters,api,key
-"ROQ_FILE_UPDATE","FileUploadedEventHandlerPlugin","current.status == ""ready"" && previous.status == ""uploading""",NULL,NULL,"ROQ_FILE_UPDATE_SET_STATUS"

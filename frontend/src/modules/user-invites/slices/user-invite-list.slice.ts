@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserInvitesAction } from 'modules/user-invites/actions';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { fetchUserInvitesAction, sendUserInvitesAction } from 'modules/user-invites/actions';
 import { UserInviteInterface } from 'modules/user-invites/interfaces';
 
 export interface UserInviteListStateInterface {
@@ -32,6 +32,12 @@ const fetchUserInvitesReducerSuccess = (state = initialState, { payload: { data,
   state.userInvites = data;
 };
 
+const sendUserInvitesReducerSuccess = (state = initialState, { payload }) => {
+  if (payload.success?.length > 0) {
+    state.userInvites = [...payload.success, ...current(state.userInvites)];
+  }
+};
+
 export const userInviteListSlice = createSlice({
   name: 'users',
   initialState,
@@ -44,6 +50,7 @@ export const userInviteListSlice = createSlice({
     [fetchUserInvitesAction.pending.type]: fetchUserInvitesReducerPending,
     [fetchUserInvitesAction.rejected.type]: fetchUserInvitesReducerError,
     [fetchUserInvitesAction.fulfilled.type]: fetchUserInvitesReducerSuccess,
+    [sendUserInvitesAction.fulfilled.type]: sendUserInvitesReducerSuccess,
   },
 });
 

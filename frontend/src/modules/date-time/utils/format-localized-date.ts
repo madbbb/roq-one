@@ -1,8 +1,8 @@
-import { publicConfig } from 'configuration/app';
+import { i18n, publicConfig } from 'configuration/app';
 
 export const formatLocalizedDate = (timestamp: string | Date, locale: string, timezone: string): string => {
   const thisTimezone = timezone ?? publicConfig.timezone.default;
-  const thisLocale = locale ?? 'en-US';
+  const thisLocale = locale ?? i18n.defaultLocale;
   const date = new Date(timestamp);
   let formatOptions;
 

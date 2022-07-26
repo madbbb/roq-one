@@ -27,7 +27,6 @@ export const useUserFileUpdate = (): UserFileUpdateHookInterface => {
             }
           `,
           variables: { id, updateFileDto },
-          context: { service: 'platform' },
         }),
       );
     },

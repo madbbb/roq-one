@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmpty } from 'src/class-validator';
+import { IsEmpty } from '@roq/class-validator';
 
 @InputType()
 export class DateFilterArgType {

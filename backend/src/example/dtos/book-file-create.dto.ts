@@ -8,7 +8,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-} from 'src/class-validator';
+} from '@roq/class-validator';
 import { BookFileAssociationOptionsDto } from 'src/example/dtos';
 import { JsonObject } from 'src/library/scalars';
 

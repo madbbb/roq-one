@@ -51,7 +51,7 @@ describe('Avatar', () => {
         request: () => ({
           id: '650066dd-011b-45b4-9913-13ba05d92f7c',
           uploadUrl: 'https://storage.googleapis.com/space-roq-snapshot/',
-          status: 'UPLOAD_PENDING'
+          status: 'upload_pending'
         })
       };
       app = await initializeApp(mockedPlatformService);
@@ -61,13 +61,13 @@ describe('Avatar', () => {
       await app.close();
     });
 
-    it('should call saveUserFile and return uploadUrl and set status to UPLOAD_PENDING', async () => {
+    it('should call saveUserFile and return uploadUrl and set status to upload_pending', async () => {
       const query = saveUserFile();
       const { body } = await request(app.getHttpServer()).post(apiUrl).send({ query });
       expect(body.data).toBeDefined();
       expect(body.data.saveUserFile.id).toEqual('650066dd-011b-45b4-9913-13ba05d92f7c');
       expect(body.data.saveUserFile.uploadUrl).toEqual('https://storage.googleapis.com/space-roq-snapshot/');
-      expect(body.data.saveUserFile.status).toEqual('UPLOAD_PENDING');
+      expect(body.data.saveUserFile.status).toEqual('upload_pending');
     });
 
     it('should fail if required arguments are not passed', async () => {

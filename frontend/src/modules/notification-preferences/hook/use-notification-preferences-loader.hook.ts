@@ -44,7 +44,6 @@ export const useNotificationsCategoriesLoader = (): UseNotificationsActionsInter
           }
         `,
         variables: {},
-        context: { service: 'platform' },
       }),
     );
   };

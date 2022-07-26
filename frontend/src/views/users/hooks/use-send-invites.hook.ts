@@ -1,20 +1,11 @@
 import { gql } from '@apollo/client';
-import { requestGql } from 'modules/common/utils/request-gql';
+import { AppDispatch } from 'configuration/redux/store';
 import { UserInviteInterface } from 'modules/user-invites';
-import { useCallback } from 'react';
-interface SuccessInterface {
-  email: string;
-}
-interface ErrorInterface {
-  email: string;
-  error: string;
-}
-export interface UseSendInvitesResponse {
-  success: SuccessInterface[];
-  errors: ErrorInterface[];
-}
+import { sendUserInvitesAction, SendUserInvitesResponseInterface } from 'modules/user-invites/actions';
+import { useDispatch } from 'react-redux';
+
 export interface UseSendInvitesInterface {
-  sendInvites: (userInvites: UserInviteInterface[]) => Promise<UseSendInvitesResponse>;
+  sendInvites: (userInvites: UserInviteInterface[]) => Promise<SendUserInvitesResponseInterface>;
 }
 
 interface UseSendInvitesHookParams {
@@ -22,31 +13,36 @@ interface UseSendInvitesHookParams {
 }
 
 export const useSendInvites = ({ userId }: UseSendInvitesHookParams): UseSendInvitesInterface => {
-  const sendInvites = useCallback(
-    async (userInvites: UserInviteInterface[]) =>
-      requestGql<UseSendInvitesResponse>(
-        {
-          mutation: gql`
-            mutation CreateUserInvites($userInvites: UserInvitesCreateDto!) {
-              sendUserInvites(userInvites: $userInvites) {
-                success {
-                  email
-                }
-                errors {
-                  error
-                  email
-                }
+  const dispatch = useDispatch<AppDispatch>();
+
+  const sendInvites = async (userInvites: UserInviteInterface[]) => {
+    const result = await dispatch(
+      sendUserInvitesAction({
+        mutation: gql`
+          mutation CreateUserInvites($userInvites: UserInvitesCreateDto!) {
+            sendUserInvites(userInvites: $userInvites) {
+              success {
+                id
+                email
+                firstName
+                lastName
+                status
+                createdAt
+              }
+              errors {
+                error
+                email
               }
             }
-          `,
-          variables: { userInvites: {userInvites:userInvites.map((invite) => ({ ...invite, createdByUserId: userId }))} },
-          context: { service: 'platform' },
+          }
+        `,
+        variables: {
+          userInvites: { userInvites: userInvites.map((invite) => ({ ...invite, createdByUserId: userId })) },
         },
-        null,
-        'sendUserInvites',
-      ),
-    [],
-  );
+      }),
+    );
+    return result.payload as SendUserInvitesResponseInterface
+  }
 
   return {
     sendInvites,

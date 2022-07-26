@@ -6,12 +6,23 @@ setConfig({ publicRuntimeConfig });
 
 export const publicConfig = Object.freeze({
   backend: {
-    host: yup.string().trim().default('http://localhost:3001').validateSync(publicRuntimeConfig.NEXT_PUBLIC_BACKEND_HOST),
-    apiUri: yup.string().trim().default('/graphql').validateSync(publicRuntimeConfig.NEXT_PUBLIC_BACKEND_API_URI),
+    host: yup
+      .string()
+      .trim()
+      .default('http://localhost:3001/graphql')
+      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_BACKEND_URL),
   },
   platform: {
-    host: yup.string().trim().default('http://localhost:3002').validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_HOST),
-    apiUri: yup.string().trim().default('/graphql').validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_API_URI),
+    host: yup
+      .string()
+      .trim()
+      .default('http://localhost:3002')
+      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_HOST),
+    url: yup
+      .string()
+      .trim()
+      .default('http://localhost:3002/v01/graphql')
+      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_URL),
     authorizationHeader: yup
       .string()
       .trim()
@@ -26,7 +37,7 @@ export const publicConfig = Object.freeze({
       .string()
       .trim()
       .default('http://localhost:3005/socket.io')
-      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_SOCKET_BACKEND_URL),
+      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_SOCKET_PLATFORM_URL),
     socketSecure: yup.boolean().default(false).validateSync(process.env.NEXT_PUBLIC_SOCKET_SECURE),
     gatewayEnabled: yup.boolean().default(true).validateSync(process.env.NEXT_PUBLIC_GATEWAY_ENABLED),
   },
@@ -50,5 +61,4 @@ export const publicConfig = Object.freeze({
       .validateSync(JSON.parse(process.env.NEXT_PUBLIC_TIMEZONE_LIST ?? null)),
     default: yup.string().trim().default('Europe/Berlin').validateSync(process.env.NEXT_PUBLIC_DEFAULT_TIMEZONE),
   },
-  locale: yup.string().trim().default('en-US').validateSync(publicRuntimeConfig.NEXT_PUBLIC_LOCALE_DEFAULT),
 });

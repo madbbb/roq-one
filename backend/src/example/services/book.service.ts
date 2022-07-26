@@ -102,8 +102,8 @@ export class BookService {
       entityIdentifiers: { valueIn: entityIdentifiers },
       entityName: { equalTo: BOOK_ENTITY_NAME },
       fileCategory: { equalTo: BOOK_FILE_CATEGORY },
-      status: { equalTo: FileStatusEnum.READY },
-      order: { order: OrderEnum.DESC, sort: FileOrderSortEnum.UPDATED_AT },
+      status: { equalTo: FileStatusEnum.ready },
+      order: { order: OrderEnum.DESC, sort: FileOrderSortEnum.updatedAt },
     });
   }
 }

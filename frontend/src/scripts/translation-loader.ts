@@ -59,9 +59,7 @@ const putContentToFile = async (filePath: string, data: string): Promise<void> =
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateTranslationsFile = async (filePath: string, obj: any) => {
   const currentContent = await getFileContent(filePath);
-
   const updatedObj = merge(currentContent, obj);
-
   await putContentToFile(filePath, JSON.stringify(updatedObj, undefined, 2));
 };
 
@@ -94,9 +92,9 @@ const getObjectFromNestedKey = (splittedKey: string[], value: string) => {
   return obj;
 };
 
-export interface GlossaryDataInterface {
+export interface TranslationKeyInterface {
   key: string;
-  glossaryValues: {
+  translations: {
     data: {
       locale: string;
       value: string;
@@ -104,37 +102,41 @@ export interface GlossaryDataInterface {
   };
 }
 
-const createLoadedTranslationsObject = (loadedTranslations,namespaceFilePath,key,value) => {
+const createLoadedTranslationsObject = (loadedTranslations, namespaceFilePath, key, value) => {
   const splittedKey = key.split('.');
   const isNestedKey = splittedKey.length > 1;
   const loadedTranslationsNamespace = loadedTranslations[namespaceFilePath];
-  if(isNestedKey && !loadedTranslationsNamespace){
+  if (isNestedKey && !loadedTranslationsNamespace) {
     loadedTranslations[namespaceFilePath] = getObjectFromNestedKey(splittedKey, value);
   }
-  if(!isNestedKey && !loadedTranslationsNamespace){
+  if (!isNestedKey && !loadedTranslationsNamespace) {
     loadedTranslations[namespaceFilePath] = { [key]: value };
   }
-  if(isNestedKey && loadedTranslationsNamespace){
+  if (isNestedKey && loadedTranslationsNamespace) {
     merge(loadedTranslations[namespaceFilePath], getObjectFromNestedKey(splittedKey, value));
   }
-  if(!isNestedKey && loadedTranslationsNamespace){
+  if (!isNestedKey && loadedTranslationsNamespace) {
     loadedTranslations[namespaceFilePath][key] = value;
-
   }
   return loadedTranslations[namespaceFilePath];
-}
+};
 
-const addTranslations = async (glossaryData: GlossaryDataInterface[]) => {
+const addTranslations = async (translationKeyData: TranslationKeyInterface[]) => {
   const loadedTranslations = {};
 
-  for (const set of glossaryData) {
+  for (const set of translationKeyData) {
     const { key } = set;
-    if (set.glossaryValues?.data) {
-      for (const glossaryDetail of set.glossaryValues.data) {
-        const { locale, value } = glossaryDetail;
+    if (set.translations?.data) {
+      for (const translationDetail of set.translations.data) {
+        const { locale, value } = translationDetail;
         for (const ns of keysToNamespaceMapping[key]) {
           const { namespaceFilePath } = getNameSpaceDetails(ns, locale, true);
-          loadedTranslations[namespaceFilePath] = createLoadedTranslationsObject(loadedTranslations,namespaceFilePath,key,value);
+          loadedTranslations[namespaceFilePath] = createLoadedTranslationsObject(
+            loadedTranslations,
+            namespaceFilePath,
+            key,
+            value,
+          );
         }
       }
       for (const translationFilePath in loadedTranslations) {
@@ -146,25 +148,24 @@ const addTranslations = async (glossaryData: GlossaryDataInterface[]) => {
   }
 };
 
-const logMissingKeys = async (glossaryData, keysToFetch) => {
-  const glossaryKeys = glossaryData.map(e => e.key);
-  keysToFetch.filter(key => {
-    if (!glossaryKeys.includes(key)) {
+const logMissingKeys = async (translationKeyData, keysToFetch) => {
+  const translationKeys = translationKeyData.map((e) => e.key);
+  keysToFetch.filter((key) => {
+    if (!translationKeys.includes(key)) {
       // eslint-disable-next-line no-console
       console.info(`${key}`);
     }
   });
-}
+};
 
 const loadTranslations = async (): Promise<void> => {
   const i18nNamespaces = [i18n.defaultNS || 'common'];
-  const supportedLocales = i18n.locales || ['en-US', 'de-DE'];
+  const supportedLocales = i18n.locales;
   for (const currentLocale of supportedLocales) {
     const translationsPathForCurrentLocale = join(translationsBasePath, currentLocale);
     const fileNames = readdirSync(translationsPathForCurrentLocale);
 
     const keysToFetch = [];
-
 
     // works on the following assumptions.
     // 1) Both locales will have the same keys. Which should also ideally be the case, until code is conditionally driven on locale.
@@ -188,27 +189,25 @@ const loadTranslations = async (): Promise<void> => {
     }
 
     const chunksArray = [];
-    const chunkSize = parseInt(process.env.TRANSLATION_LOAD_CHUNK_SIZE,10);
+    const chunkSize = parseInt(process.env.TRANSLATION_LOAD_CHUNK_SIZE, 10);
     for (let i = 0; i < keysToFetch.length; i += chunkSize) {
-        const chunk = keysToFetch.slice(i, i + chunkSize);
-        chunksArray.push(chunk);
-        // do whatever
+      const chunk = keysToFetch.slice(i, i + chunkSize);
+      chunksArray.push(chunk);
+      // do whatever
     }
 
-
-
-    let result: ApolloQueryResult<{ glossaries: { data: GlossaryDataInterface[] } }>;
+    let result: ApolloQueryResult<{ translationKeys: { data: TranslationKeyInterface[] } }>;
     let currentChunk = 0;
-    for(const keysChunk of chunksArray){
+    for (const keysChunk of chunksArray) {
       currentChunk++;
       const requestObj = {
         query: gql`
-          query Glossary($keys: [String!]!, $locales: [String!]) {
-            glossaries(filter: { key: { valueIn: $keys } }) {
+          query TranslationKeys($keys: [String!]!, $locales: [String!]) {
+            translationKeys(filter: { key: { valueIn: $keys } }) {
               totalCount
               data {
                 key
-                glossaryValues(filter: { locale: { valueIn: $locales } }) {
+                translations(filter: { locale: { valueIn: $locales } }) {
                   data {
                     locale
                     value
@@ -221,36 +220,31 @@ const loadTranslations = async (): Promise<void> => {
         variables: { keys: keysChunk, locales: [localeMapping[currentLocale] || currentLocale] },
       };
 
-      result = await apolloClient().query(
-        requestObj,
-      );
+      result = await apolloClient().query(requestObj);
 
       console.log('*******-------Request Object-------*******');
       console.log('query: %s variables: %o', print(requestObj.query), requestObj.variables);
       console.log('*******-------Request Object-------*******');
 
-       // At build time we always ship running things, with values.
+      // At build time we always ship running things, with values.
       // So all we need to do is fail the build at every possible error.
       // At runtime, we always have fallback caches, at every step for every next build while using ISR.
 
       if (result && result.data) {
         // eslint-disable-next-line no-console
-        console.log(`******* Processing ${currentLocale} Chunk ${currentChunk}`)
+        console.log(`******* Processing ${currentLocale} Chunk ${currentChunk}`);
         const dataInResult = result.data;
-        if (dataInResult.glossaries && dataInResult.glossaries.data) {
-          const glossaryData = dataInResult.glossaries.data;
+        if (dataInResult.translationKeys && dataInResult.translationKeys.data) {
+          const translationKeyData = dataInResult.translationKeys.data;
           // eslint-disable-next-line no-console
           console.log(`******* Missing ${currentLocale} keys *******`);
-          await logMissingKeys(glossaryData, keysChunk);
-          await addTranslations(glossaryData);
+          await logMissingKeys(translationKeyData, keysChunk);
+          await addTranslations(translationKeyData);
         }
       }
-
     }
-
   }
 };
-
 
 (async () => {
   await loadTranslations();

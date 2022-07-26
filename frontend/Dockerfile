@@ -8,14 +8,16 @@ COPY frontend/patches ./patches
 
 FROM node:16-alpine3.14 as development
 WORKDIR /app/frontend
-RUN apk add --no-cache --update git openssh && apk add bash
+RUN apk add --no-cache --update git openssh && apk add bash curl
 COPY --from=base-stage /app /app
 RUN npm install
 COPY frontend .
-ARG NEXT_PUBLIC_BACKEND_HOST
-ARG NEXT_PUBLIC_SOCKET_BACKEND_URL
-ARG NEXT_PUBLIC_PLATFORM_HOST
 ARG API_KEY
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_PLATFORM_HOST
+ARG NEXT_PUBLIC_PLATFORM_URL
+ARG NEXT_PUBLIC_SOCKET_PLATFORM_URL
+ARG NEXTAUTH_URL
 ARG TENANT_ID
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run translate
@@ -24,10 +26,12 @@ CMD [ "npm", "run", "dev" ]
 FROM base-stage as compile-stage
 RUN npm ci
 COPY frontend .
-ARG NEXT_PUBLIC_BACKEND_HOST
-ARG NEXT_PUBLIC_SOCKET_BACKEND_URL
-ARG NEXT_PUBLIC_PLATFORM_HOST
 ARG API_KEY
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_PLATFORM_HOST
+ARG NEXT_PUBLIC_PLATFORM_URL
+ARG NEXT_PUBLIC_SOCKET_PLATFORM_URL
+ARG NEXTAUTH_URL
 ARG TENANT_ID
 RUN npm run-script build && \
   npm prune --production --ignore-scripts

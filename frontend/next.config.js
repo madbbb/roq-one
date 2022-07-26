@@ -11,7 +11,7 @@ const routes = require('./routes/localized');
 const path = require('path');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE_WEBPACK_BUNDLE === 'true',
-})
+});
 
 const pathnameToPattern = (pathname) =>
   pathname
@@ -46,21 +46,18 @@ module.exports = withPlugins([withBundleAnalyzer], {
       issuer: /\.(js|ts)x?$/,
       use: ['@svgr/webpack'],
     });
-    config.resolve.alias['lodash-es'] = path.resolve(
-      __dirname,
-      'node_modules',
-      'lodash'
+    config.resolve.alias['lodash-es'] = path.resolve(__dirname, 'node_modules', 'lodash');
+    config.plugins.push(
+      new webpack.ContextReplacementPlugin(
+        /^date-fns[/\\]locale$/,
+        new RegExp(`\\.[/\\\\](${i18n.dateFnsLocales.join('|')})[/\\\\]index\\.js$`),
+      ),
     );
-    config.plugins.push(new webpack.ContextReplacementPlugin(
-      /^date-fns[/\\]locale$/,
-      new RegExp(`\\.[/\\\\](${i18n.dateFnsLocales.join('|')})[/\\\\]index\\.js$`)
-    )
-    )
     return config;
   },
   [PHASE_DEVELOPMENT_SERVER]: {
     env: {
       NEXTAUTH_URL: 'http://localhost:3000',
     },
-  }
+  },
 });

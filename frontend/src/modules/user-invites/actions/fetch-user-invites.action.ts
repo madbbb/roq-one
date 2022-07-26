@@ -3,13 +3,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { requestGql } from 'modules/common/utils/request-gql';
 import { UserInviteInterface } from 'modules/user-invites/interfaces';
 
-export interface FetchUserInvitessActionVariablesInterface {}
+export interface FetchUserInvitesActionVariablesInterface {}
 
 export interface FetchUserInvitesRequestInterface extends QueryOptions {
-  variables: FetchUserInvitessActionVariablesInterface;
+  variables: FetchUserInvitesActionVariablesInterface;
 }
 
-export interface FetchUserInvitessResponseInterface {
+export interface FetchUserInvitesResponseInterface {
   totalCount: number;
   data: UserInviteInterface[];
 }
@@ -19,6 +19,6 @@ export const fetchUserInvitesAction = createAsyncThunk(
   (
     request: FetchUserInvitesRequestInterface,
     thunkApi,
-  ): Promise<FetchUserInvitessResponseInterface> =>
-    requestGql<FetchUserInvitessResponseInterface>(request, thunkApi, 'userInvites'),
+  ): Promise<FetchUserInvitesResponseInterface> =>
+    requestGql<FetchUserInvitesResponseInterface>(request, thunkApi, 'userInvites'),
 );

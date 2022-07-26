@@ -1,7 +1,6 @@
 import { publicConfig } from 'configuration/app';
 import { AppDispatch } from 'configuration/redux/store';
 import subDays from 'date-fns/subDays';
-import { OrderEnum } from 'modules/common/enums';
 import { fetchNotificationNextPageQuery, fetchNotificationQuery } from 'modules/notifications/gql';
 import {
   fetchNotificationsAction,
@@ -38,7 +37,7 @@ export const useNotificationsLoader = ({
           query: fetchNotificationQuery,
           variables: {
             limit: publicConfig.frontend.notificationFirstLoadCount,
-            order: { order: OrderEnum.DESC, sort: 'CREATED_AT' },
+            order: { order: 'DESC', sort: 'createdAt' },
             notificationfilter: unreadToggle
               ? {
                   createdAt: { moreThan: notificationsFromDate },
@@ -62,7 +61,7 @@ export const useNotificationsLoader = ({
         query: fetchNotificationQuery,
         variables: {
           limit: publicConfig.frontend.notificationFirstLoadCount,
-          order: { order: OrderEnum.DESC, sort: 'CREATED_AT' },
+          order: { order: 'DESC', sort: 'createdAt' },
           notificationfilter: { createdAt: { moreThan: minDate }, read: { equalTo: false } },
           unreadCountFilter: { createdAt: { moreThan: minDate }, read: { equalTo: false } },
         },
@@ -77,7 +76,7 @@ export const useNotificationsLoader = ({
         query: fetchNotificationQuery,
         variables: {
           limit: publicConfig.frontend.notificationFirstLoadCount,
-          order: { order: OrderEnum.DESC, sort: 'CREATED_AT' },
+          order: { order: 'DESC', sort: 'createdAt' },
           notificationfilter: { createdAt: { moreThan: minDate } },
           unreadCountFilter: { createdAt: { moreThan: minDate }, read: { equalTo: false } },
         },
@@ -96,7 +95,7 @@ export const useNotificationsLoader = ({
         query: fetchNotificationNextPageQuery,
         variables: {
           limit: publicConfig.frontend.notificationPageSize,
-          order: { order: OrderEnum.DESC, sort: 'CREATED_AT' },
+          order: { order: 'DESC', sort: 'createdAt' },
           filter: unreadToggle
             ? {
                 createdAt: showMoreCreatedAt,

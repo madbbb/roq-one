@@ -45,7 +45,7 @@ const initialState: UserFileListStateInterface = {
   currentPage: 0,
   currentEntity: null,
   order: {
-    sort: FilesSortEnum.CREATED_AT,
+    sort: FilesSortEnum.createdAt,
     order: OrderEnum.DESC,
   },
 };

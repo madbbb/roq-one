@@ -32,7 +32,7 @@ export const useUserFilesUpload = (): UseUserFilesUploadInterface => {
   const [tableState, setTableState] = useState<UserFileStateInterface>({
     pageNumber: 0,
     pageSize: 20,
-    order: { sort: FilesSortEnum.CREATED_AT, order: OrderEnum.DESC },
+    order: { sort: FilesSortEnum.createdAt, order: OrderEnum.DESC },
   });
   const { totalCount } = useUserFiles();
 

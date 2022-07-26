@@ -1,6 +1,7 @@
 import { Args, Info, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Loader } from '@roq/nestjs-dataloader';
+import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
 import { UserLoginHistoryNotFoundException } from 'src/library/exception';
@@ -12,7 +13,6 @@ import {
 import { UserEntity } from 'src/user/entities';
 import { UserFindQueryInterface } from 'src/user/interfaces';
 import { UserLoader } from 'src/user/loaders';
-import { mapUserLoginHistoryToModel, mapUserToModel } from 'src/user/mappers';
 import { UserLoginHistoryModel, UserLoginHistoryPageModel, UserModel } from 'src/user/models';
 import { UserLoginHistoryRepository } from 'src/user/repositories';
 import { UserLoginHistoryService } from 'src/user/services';
@@ -40,7 +40,7 @@ export class UserLoginHistoryInternalResolver {
       throw new UserLoginHistoryNotFoundException({ variables: { id } });
     }
 
-    return mapUserLoginHistoryToModel(userLoginHistoryEntity);
+    return plainToClass(UserLoginHistoryModel, userLoginHistoryEntity);
   }
 
   @Query(() => UserLoginHistoryPageModel)
@@ -53,7 +53,7 @@ export class UserLoginHistoryInternalResolver {
     return {
       totalCount,
       data: userLoginHistoryEntities.map((userLoginHistoryEntity) =>
-        mapUserLoginHistoryToModel(userLoginHistoryEntity),
+      plainToClass(UserLoginHistoryModel, userLoginHistoryEntity),
       ),
     };
   }
@@ -69,6 +69,6 @@ export class UserLoginHistoryInternalResolver {
   ): Promise<UserModel> {
     const fields = this.utilityService.getInfoFields(info);
     const userEntity = await userLoader.load({ filter: { id: { equalTo: userLoginHistoryModel.userId } }, fields });
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 }

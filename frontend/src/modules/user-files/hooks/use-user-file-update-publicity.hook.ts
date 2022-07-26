@@ -40,7 +40,6 @@ export const useUserFileUpdatePublicity = (): UserFileUpdatePublicityHookInterfa
       {
         mutation,
         variables: { id },
-        context: { service: 'platform' },
       },
       null,
       visibility === FileVisibilityStatusEnum.public ? 'makeFilePublic' : 'makeFilePrivate',

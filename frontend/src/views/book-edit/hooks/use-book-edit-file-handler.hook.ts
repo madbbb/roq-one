@@ -74,7 +74,6 @@ export const useBookEditFileHandler = (): UseBookEditFileHandler => {
         variables: {
           ids,
         },
-        context: { service: 'platform' },
       },
       null,
       'deleteFile',

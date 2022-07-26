@@ -1,5 +1,6 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { Grid, IconButton, Paper } from '@mui/material';
+import _upperFirst from 'lodash/upperFirst'
 import { useAuth } from 'modules/auth/hooks';
 import { LoadingSkeleton, RoqLink, Table, TableColumnInterface } from 'modules/common/components';
 import { FormattedDate } from 'modules/date-time/components';
@@ -63,12 +64,12 @@ export const BooksTablePartial: React.FC = () => {
       {
         title: t('book.published'),
         field: 'published',
-        render: (rowData: BookInterface) => (rowData.published ? 'Yes' : 'No'),
+        render: (rowData: BookInterface) => (rowData.published ? _upperFirst(t('yes')) : _upperFirst(t('no'))),
       },
       {
         title: t('book.outOfStock'),
         field: 'outOfStock',
-        render: (rowData: BookInterface) => (rowData.outOfStock ? 'Yes' : 'No'),
+        render: (rowData: BookInterface) => (rowData.outOfStock ? _upperFirst(t('yes')) : _upperFirst(t('no'))),
       },
       {
         title: t('book.actions'),

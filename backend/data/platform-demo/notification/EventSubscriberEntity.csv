@@ -1,3 +1,0 @@
-"eventType","consumer","parameters","condition","key"
-ROQ_FILE_UPDATE,NotificationEventHandlerPlugin,"{""recipients"": {""currentUser"": false, ""userGroupType"": {""allUsers"": true, ""userGroupTypes"": [""manager""], ""excludeCurrentUser"": true, ""userGroupTypesWithUser"": [""restaurant"", ""country""]}}, ""entityMapping"": [{""type"": ""user"", ""alias"": ""creator"", ""uuidPath"": ""data.current.createdByUserId""}], ""notificationType"": ""files-new"", ""excludedUserIdPaths"":[""data.current.createdByUserId""],""userIdPath"":""data.current.userId""}","current.status == ""ready"" && previous.status == ""upload_pending""","ROQ_FILE_UPDATE_SEND_NOTIFICATION"
-

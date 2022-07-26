@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { plainToClass } from 'class-transformer';
 import { SessionModel } from 'src/auth/models';
-import { mapUserToModel } from 'src/user/mappers';
 import { UserModel } from 'src/user/models';
 import { UserService } from 'src/user/services';
 
@@ -15,6 +15,6 @@ export class SessionResolver {
   ): Promise<UserModel | null> {
     if (!sessionModel.userId) {return null;}
     const userEntity = await this.userService.findById(sessionModel.userId, {});
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 }

@@ -15,7 +15,6 @@ import { UserArgType, UserLoginHistoryArgType, UserUpdateDto } from 'src/user/dt
 import { UserEntity, UserLoginHistoryEntity } from 'src/user/entities';
 import { UserLoginHistoryFindQueryInterface } from 'src/user/interfaces';
 import { UserUserLoginHistoryLoader } from 'src/user/loaders';
-import { mapUserLoginHistoryToModel, mapUserToModel } from 'src/user/mappers';
 import { UserLoginHistoryModel, UserLoginHistoryPageModel, UserModel, UserPageModel } from 'src/user/models';
 import { UserRepository } from 'src/user/repositories';
 import { UserService } from 'src/user/services';
@@ -55,7 +54,7 @@ export class UserInternalResolver {
       throw new UserNotFoundException({ variables: { id } });
     }
 
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 
   @Query(() => UserPageModel)
@@ -68,7 +67,7 @@ export class UserInternalResolver {
     const [userEntities, totalCount] = await this.userService.findAndCount({ ...args, fields });
     return {
       totalCount,
-      data: userEntities.map((userEntity) => mapUserToModel(userEntity)),
+      data: userEntities.map((userEntity) => plainToClass(UserModel, userEntity)),
     };
   }
 
@@ -79,7 +78,7 @@ export class UserInternalResolver {
     @Args({ name: 'user', type: () => UserUpdateDto }) userData: UserUpdateDto,
   ): Promise<UserModel> {
     const userEntity = await this.userService.update(id, userData);
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 
   /**
@@ -101,7 +100,8 @@ export class UserInternalResolver {
     });
     return {
       totalCount: userLoginHistoryEntities.length,
-      data: userLoginHistoryEntities.map((userLoginHistory) => mapUserLoginHistoryToModel(userLoginHistory)),
+      data: userLoginHistoryEntities.map((userLoginHistory) =>
+      plainToClass(UserLoginHistoryModel, userLoginHistory)),
     };
   }
 
@@ -114,14 +114,14 @@ export class UserInternalResolver {
     const lastUserLoginHistoryEntity = await lastLoginActivityLoader.load({
       filter: { userId: { equalTo: userModel.id } },
     });
-    return mapUserLoginHistoryToModel(lastUserLoginHistoryEntity);
+    return plainToClass(UserLoginHistoryModel, lastUserLoginHistoryEntity);
   }
 
   @Query(() => UserModel)
   @UseGuards(JwtAuthGuard)
   async whoAmI(@CurrentUser() user: UserEntity): Promise<UserModel> {
     const userEntity = await this.userService.findById(user.id, {});
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 
   @Mutation(() => UserFileModel)
@@ -143,7 +143,7 @@ export class UserInternalResolver {
   @UseGuards(JwtAuthGuard)
   async activateUser(@Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string): Promise<UserModel> {
     const userEntity = await this.userInternalService.activateById(id);
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 
   @Mutation(() => UserModel)
@@ -151,7 +151,7 @@ export class UserInternalResolver {
   async deactivateUser(@Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string): Promise<UserModel> {
     const userEntity = await this.userInternalService.deactivateById(id);
     await this.userInviteService.clearUserRefreshTokens(userEntity.roqIdentifier);
-    return mapUserToModel(userEntity);
+    return plainToClass(UserModel, userEntity);
   }
 
   @ResolveField(() => String, { nullable: true })
@@ -180,6 +180,7 @@ export class UserInternalResolver {
       ...data,
       fileCategory: USER_FILE_CATEGORY,
     });
+
     return plainToClass(UserFileModel, file);
   }
 

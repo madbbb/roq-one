@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
 export const fetchNotificationQuery = gql`
-  query notificationWebs(
+  query notificationsInAppForCurrentUser(
     $limit: Int
-    $order: NotificationWebOrderArgType!
-    $notificationfilter: NotificationWebFilterArgType
-    $unreadCountFilter: NotificationWebFilterArgType
+    $order: NotificationInAppOrderArgType!
+    $notificationfilter: NotificationInAppFilterArgType
+    $unreadCountFilter: NotificationInAppFilterArgType
   ) {
-    loadNotifications: notificationWebs(limit: $limit, order: $order, filter: $notificationfilter) {
+    loadNotifications: notificationsInAppForCurrentUser(limit: $limit, order: $order, filter: $notificationfilter) {
       totalCount
       data {
         id
@@ -19,7 +19,7 @@ export const fetchNotificationQuery = gql`
         icon
       }
     }
-    loadUnreadNotificationCount: notificationWebs(limit: $limit, filter: $unreadCountFilter) {
+    loadUnreadNotificationCount: notificationsInAppForCurrentUser(limit: $limit, filter: $unreadCountFilter) {
       totalCount
     }
   }

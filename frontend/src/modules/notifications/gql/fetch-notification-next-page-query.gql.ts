@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const fetchNotificationNextPageQuery = gql`
-  query notificationWebs($limit: Int, $order: NotificationWebOrderArgType!, $filter: NotificationWebFilterArgType) {
-    notificationWebs(limit: $limit, order: $order, filter: $filter) {
+  query notificationsInAppForCurrentUser($limit: Int, $order: NotificationInAppOrderArgType!, $filter: NotificationInAppFilterArgType) {
+    notificationsInAppForCurrentUser(limit: $limit, order: $order, filter: $filter) {
       totalCount
       data {
         id

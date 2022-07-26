@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { ValidateNested } from 'src/class-validator';
+import { ValidateNested } from '@roq/class-validator';
 import { DateFilterArgType, IdFilterArgType } from 'src/library/argTypes';
 
 @InputType()

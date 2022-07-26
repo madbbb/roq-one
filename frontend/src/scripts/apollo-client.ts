@@ -1,15 +1,15 @@
 import { ApolloClient, createHttpLink, from, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { publicConfig } from 'configuration/app'
+import { publicConfig } from 'configuration/app';
 import fetcher from 'isomorphic-fetch';
-import { authorizeServiceAccount } from 'scripts/authorize-service-account'
+import { authorizeServiceAccount } from 'scripts/authorize-service-account';
 import { uuid as uuidv4 } from 'uuidv4';
 
 let clientSingleton;
 let token;
 export function apolloClient(): ApolloClient<InMemoryCache> {
   if (!clientSingleton) {
-    const serverAddress = `${publicConfig.platform.host}${publicConfig.platform.apiUri}`;
+    const serverAddress = `${publicConfig.platform.url}`;
 
     const httpLink = createHttpLink({
       uri: serverAddress,
@@ -20,8 +20,8 @@ export function apolloClient(): ApolloClient<InMemoryCache> {
 
     const authLink = setContext(async (_, { headers }) => {
       const timezone = 'UTC';
-      if(!token) {
-        token = await authorizeServiceAccount()
+      if (!token) {
+        token = await authorizeServiceAccount();
       }
       return {
         headers: {

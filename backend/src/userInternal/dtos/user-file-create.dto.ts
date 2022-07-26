@@ -7,7 +7,7 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-} from 'src/class-validator';
+} from '@roq/class-validator';
 import { JsonObject } from 'src/library/scalars';
 
 @InputType()

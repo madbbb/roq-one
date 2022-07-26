@@ -15,7 +15,6 @@ export const useDeleteFiles = (): UseDeleteFilesInterface => {
     variables: {
       ids,
     },
-    context: { service: 'platform' },
   }, null, 'deleteFiles');
 
   return { deleteFiles };

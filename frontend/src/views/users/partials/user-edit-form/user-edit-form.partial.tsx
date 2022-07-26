@@ -5,8 +5,8 @@ import { USER_NAME_INPUT_PROPS } from 'modules/auth/constants';
 import { useTranslation } from 'modules/common/hooks';
 import { useTimezones } from 'modules/date-time/hooks';
 import { FormAlert } from 'modules/forms/components';
+import { UserInviteStatusEnum } from 'modules/user-invites/enums';
 import { UserStatus } from 'modules/users/components/user-status';
-import { UserStatusEnum } from 'modules/users/enums';
 import { UserInterface } from 'modules/users/interfaces';
 import { SingleUserChangeActiveStatusActionEnum } from 'modules/users/slices';
 import React, { FunctionComponent, ReactElement, useCallback, useMemo } from 'react';
@@ -127,7 +127,7 @@ export const UserInviteEditFormActionOverlay: FunctionComponent<UserInviteEditFo
             <Grid container justifyContent="space-between">
               <Box className={classes.titleSection}>
                 <Grid container item gap={2}>
-                  <UserStatus status={active ? UserStatusEnum.ACTIVE : UserStatusEnum.INACTIVE} />
+                  <UserStatus status={active ? UserInviteStatusEnum.ACTIVE : UserInviteStatusEnum.INACTIVE} />
                 </Grid>
               </Box>
             </Grid>

@@ -72,8 +72,8 @@ export class UserInternalService extends UserService {
       entityIdentifiers: { valueIn: entityIdentifiers },
       entityName: { equalTo: USER_ENTITY_NAME },
       fileCategory: { equalTo: USER_AVATAR_CATEGORY },
-      status: { equalTo: FileStatusEnum.READY },
-      order: { order: OrderEnum.DESC, sort: FileOrderSortEnum.UPDATED_AT },
+      status: { equalTo: FileStatusEnum.ready },
+      order: { order: OrderEnum.DESC, sort: FileOrderSortEnum.updatedAt },
       limit: 1,
     });
   }

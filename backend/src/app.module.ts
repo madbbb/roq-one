@@ -19,7 +19,7 @@ import { AuthModule } from 'src/auth';
 import { applicationConfig, validationSchema } from 'src/config';
 import { EventModule } from 'src/event';
 import { ExampleModule } from 'src/example';
-import { ImportModule } from 'src/import';
+import { ImportConsole, ImportModule } from 'src/import';
 import { RequestShareInterceptor } from 'src/library/interceptors';
 import { ExceptionService } from 'src/library/services';
 import { queryDepthValidation } from 'src/library/utilities';
@@ -55,7 +55,7 @@ import { AppController } from './app.controller';
         logging: !appConfig.isProd,
         // TODO: stream logger to provider in production
         logger: 'file',
-        synchronize: true,
+        synchronize: false,
         extra: {
           queryLimit: appConfig.queryLimit,
           defaultLanguage: appConfig.defaultLanguage,
@@ -129,7 +129,12 @@ export class AppModule implements NestModule {
   constructor(
     @Inject(applicationConfig.KEY)
     private readonly appConfig: ConfigType<typeof applicationConfig>,
-  ) {}
+    importConsole: ImportConsole,
+  ) {
+    if (!appConfig.isConsoleCommand) {
+      importConsole.importEventSubscribers();
+    }
+  }
 
   configure(consumer: MiddlewareConsumer): void {
     consumer

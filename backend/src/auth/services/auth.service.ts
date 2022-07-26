@@ -275,7 +275,7 @@ export class AuthService {
       },
       order: {
         order: 'DESC',
-        sort: 'CREATED_AT',
+        sort: 'createdAt',
       },
     });
     if (resetPasswordTokens.data?.length < 1) {

@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDefined, IsEmail, IsString } from 'src/class-validator';
+import { IsDefined, IsEmail, IsString } from '@roq/class-validator';
 import { Trim } from 'src/library/decorators';
 
 @InputType()

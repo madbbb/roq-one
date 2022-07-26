@@ -5,7 +5,7 @@ module.exports = {
     defaultLanguage: 'en',
     fallbackLng: ['en'],
     defaultNS: 'common',
-    dateFnsLocales:['en-US', 'de'],
+    dateFnsLocales: ['en-US', 'de'],
   },
   localeMapping: {
     en: 'en-US',

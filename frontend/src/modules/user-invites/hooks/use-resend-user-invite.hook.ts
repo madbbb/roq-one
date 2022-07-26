@@ -25,7 +25,6 @@ export const useResendUserInvite = (): UseResendUserInviteInterface => {
           }
         `,
         variables: { id },
-        context: { service: 'platform' },
       }),
     );
   };

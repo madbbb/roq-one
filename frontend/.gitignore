@@ -36,3 +36,6 @@ yarn-error.log*
 
 
 certificates
+
+# https://nextjs.org/docs/basic-features/typescript generated file by next.js
+next-env.d.ts

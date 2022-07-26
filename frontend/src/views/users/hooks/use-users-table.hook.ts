@@ -39,6 +39,7 @@ export const useUsersTable = (): UseUsersTableInterface => {
     });
   }, [pageNumber, pageSize, order]);
 
+
   const handleOrderChange = useCallback((sort: UsersSortEnum, orderDirection: OrderEnum) => {
     setTableState((ts) => ({
       ...ts,

@@ -10,7 +10,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
-} from 'src/class-validator';
+} from '@roq/class-validator';
 import { AuthorGenderEnum } from 'src/example/enums';
 import { JsonObject } from 'src/library/scalars';
 

@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-import * as path from 'path';
 import { createConnection } from 'typeorm';
 
 void (async () => {
@@ -9,9 +8,7 @@ void (async () => {
       type: 'postgres',
       url: process.env.DATABASE_URL,
       entities: ['src/**/*.entity{.ts,.js}'],
-      migrations: [
-        path.resolve(__dirname, './migration/*{.ts,.js}')
-      ],
+      migrations: ['src/migration/*{.ts,.js}'],
       dropSchema: true,
       migrationsRun: true,
     });

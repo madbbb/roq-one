@@ -13,6 +13,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Typography from '@mui/material/Typography';
 import { FunctionComponent } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHomeFeatureAccordionStyles } from 'views/home/partials/home-feature-accordion/home-feature-accordion.styles';
 
 interface SubFeature {
@@ -38,6 +39,7 @@ export interface HomeFeatureAccordionPartialInterface {
 const FeatureAccordion = (props) => {
   const { features } = props;
   const classes = useHomeFeatureAccordionStyles();
+  const { t } = useTranslation();
   const [expanded, setExpanded] = React.useState<string | false>('panel0');
 
   const handleChange = (panel: string) => (_, newExpanded: boolean) => {
@@ -74,7 +76,7 @@ const FeatureAccordion = (props) => {
                   target={feature.cta.target}
                   className={classes.ctaButton}
                 >
-                  Explore
+                  {t('dashboard.exploreBtn')}
                 </Button>
               )}
             </Grid>

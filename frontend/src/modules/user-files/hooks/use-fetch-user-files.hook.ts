@@ -56,7 +56,7 @@ export const useFetchUserFiles = (): UseFetchUserFileListHookInterface => {
               equalTo: USER_FILE_CATEGORY,
             },
             status: {
-              equalTo: FileUploadStatusEnum.READY,
+              equalTo: FileUploadStatusEnum.ready,
             },
           },
         },

@@ -41,7 +41,6 @@ export const useNotificationsCategoriesActions = (): UseNotificationsActionsInte
           }
         `,
         variables,
-        context: { service: 'platform' },
       }),
     );
   };

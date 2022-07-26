@@ -16,6 +16,7 @@ export const useActivateUser = (): UseActivateUserInterface => {
         mutation: gql`
           mutation ActivateUser($id: ID!) {
             activateUser(id: $id) {
+              id
               active
             }
           }

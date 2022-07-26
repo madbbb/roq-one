@@ -111,9 +111,9 @@ export class FileUploader implements FileUploaderInterface {
         mutation: fileStatusUpdateMutationOptions.mutation,
         variables: {
           fileId: this.fileId,
-          status: FileUploadStatusEnum.READY
+          status: FileUploadStatusEnum.ready
         },
-        context: { service: 'platform' },
+        
       });
 
       if (onSuccess) onSuccess(result?.data);
@@ -245,18 +245,18 @@ export class FileUploader implements FileUploaderInterface {
           mutation: fileStatusUpdateMutationOptions.mutation,
           variables: {
             fileId: this.fileId,
-            status: FileUploadStatusEnum.CANCELLED
+            status: FileUploadStatusEnum.cancelled
           },
-          context: { service: 'platform' },
+          
         });
       } else if (this.fileId) {
         await apolloClient().mutate({
           mutation: fileStatusUpdateMutationOptions.mutation,
           variables: {
             fileId: this.fileId,
-            status: FileUploadStatusEnum.ERROR
+            status: FileUploadStatusEnum.error
           },
-          context: { service: 'platform' },
+          
         });
 
         if (onError) onError(e);

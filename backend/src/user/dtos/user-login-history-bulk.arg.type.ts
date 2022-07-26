@@ -1,6 +1,6 @@
 import { ArgsType, Field } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { ValidateNested } from 'src/class-validator';
+import { ValidateNested } from '@roq/class-validator';
 import { BaseArgType } from 'src/library/argTypes';
 import {
   UserLoginHistoryFilterArgType,

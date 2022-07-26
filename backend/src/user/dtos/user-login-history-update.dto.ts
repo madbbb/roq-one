@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsDate, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'src/class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from '@roq/class-validator';
 
 @InputType()
 export class UserLoginHistoryUpdateDto {

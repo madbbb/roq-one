@@ -15,10 +15,10 @@ export function apolloClient(): ApolloClient<InMemoryCache> {
     const httpLink = split(
       (operation) => operation.getContext().service === 'platform',
       createHttpLink({
-        uri: `${publicConfig.platform.host}${publicConfig.platform.apiUri}`,
+        uri: `${publicConfig.platform.url}`,
       }),
       createHttpLink({
-        uri: `${publicConfig.backend.host}${publicConfig.backend.apiUri}`,
+        uri: `${publicConfig.backend.host}`,
       }),
     );
 

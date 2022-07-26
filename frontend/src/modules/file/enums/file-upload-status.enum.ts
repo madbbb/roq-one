@@ -1,7 +1,7 @@
 export enum FileUploadStatusEnum {
-  UPLOADING = 'UPLOADING',
-  READY = 'READY',
-  PROCESSING = 'PROCESSING',
-  ERROR = 'ERROR',
-  CANCELLED = 'CANCELLED',
+  cancelled = 'cancelled',
+  error = 'error',
+  processing = 'processing',
+  ready = 'ready',
+  upload_pending = 'upload_pending',
 }

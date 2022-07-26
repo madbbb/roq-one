@@ -5,6 +5,7 @@ import * as csv from 'csvtojson';
 import * as fs from 'fs';
 import { Command, Console } from 'nestjs-console';
 import * as path from 'path';
+import { platformEventSubscribers } from 'src/config';
 import { ImportService } from 'src/import/services';
 import { LoggingTypeEnum } from 'src/logger/enums';
 import { Logger } from 'src/logger/services';
@@ -18,7 +19,7 @@ export class ImportConsole {
     private logger: Logger,
     private importService: ImportService,
     private configService: ConfigService,
-    private platformServiceAccountClientService: PlatformServiceAccountClientService
+    private platformServiceAccountClientService: PlatformServiceAccountClientService,
   ) {}
 
   @Command({
@@ -32,7 +33,7 @@ export class ImportConsole {
       {
         required: false,
         flags: '--initial',
-      }
+      },
     ],
   })
   async importData(
@@ -61,8 +62,8 @@ export class ImportConsole {
       type: LoggingTypeEnum.importData,
       message: 'Platform import seed configuration',
       data: {
-        configuration
-      }
+        configuration,
+      },
     });
     const platformSources = configuration.filter((config) => config.isPlatform);
     const nonPlatformSources = configuration.filter((config) => !config.isPlatform);
@@ -104,7 +105,7 @@ export class ImportConsole {
         message: 'Files loaded',
       });
 
-      const variables: { [key in string]: Record<string, string>[]} = {};
+      const variables: { [key in string]: Record<string, string>[] } = {};
       for (const file of files) {
         const extension = path.extname(file);
         const entityName = path.basename(file, extension);
@@ -150,11 +151,11 @@ export class ImportConsole {
           type: LoggingTypeEnum.importData,
           message: `Import for ${name} succeed`,
         });
-      } catch (error ) {
+      } catch (error) {
         this.logger.log({
           type: LoggingTypeEnum.importData,
           message: `Import for ${name} failed`,
-          data: { error }
+          data: { error },
         });
         process.exit(1);
       }
@@ -198,5 +199,31 @@ export class ImportConsole {
       });
       process.exit(1);
     }
+  }
+  @Command({
+    command: 'import-event-subscribers',
+    description: 'Importing event subscribers',
+  })
+  public async importEventSubscribers(): Promise<void> {
+    const requestId = v4();
+    const requestCaller = this.configService.get('application.appName');
+    const headers = {};
+    headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
+    headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller;
+    const variables = platformEventSubscribers;
+    await this.platformServiceAccountClientService.request(
+      {
+        mutation: gql`
+          mutation eventSyncEventSubscribers($data: [EventSubscriberCreateDto!]!) {
+            eventSyncEventSubscribers(data: $data)
+          }
+        `,
+        variables: {
+          data: variables,
+        },
+      },
+      null,
+      headers,
+    );
   }
 }

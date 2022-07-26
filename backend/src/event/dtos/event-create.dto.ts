@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDefined, IsObject, IsOptional, IsString } from 'src/class-validator';
+import { IsDefined, IsObject, IsOptional, IsString } from '@roq/class-validator';
 import { JsonObject } from 'src/library/scalars';
 
 @InputType()
