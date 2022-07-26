@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "graphdoc": {
-    "endpoint": "https://roq-snapshot-space-ytqhysh7ka-ew.a.run.app/graphql",
+    "endpoint": "https://saturn-pp.roq-platform.com/v01/server/graphql",
     "output": "./doc/schema"
   },
   "private": true,
