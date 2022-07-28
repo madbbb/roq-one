@@ -4,25 +4,26 @@ import { setConfig } from 'next/config';
 
 setConfig({ publicRuntimeConfig });
 
+const platformUrl = yup
+  .string()
+  .trim()
+  .default('http://localhost:3002/v01')
+  .validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_URL);
+
+const backendUrl = yup
+  .string()
+  .trim()
+  .default('http://localhost:3001')
+  .validateSync(publicRuntimeConfig.NEXT_PUBLIC_BACKEND_URL);
+
 export const publicConfig = Object.freeze({
   backend: {
-    host: yup
-      .string()
-      .trim()
-      .default('http://localhost:3001/graphql')
-      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_BACKEND_URL),
+    url: backendUrl,
+    graphqlUri: `${backendUrl}/graphql`,
   },
   platform: {
-    host: yup
-      .string()
-      .trim()
-      .default('http://localhost:3002')
-      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_HOST),
-    url: yup
-      .string()
-      .trim()
-      .default('http://localhost:3002/v01/graphql')
-      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_PLATFORM_URL),
+    url: platformUrl,
+    graphqlUri: `${platformUrl}/graphql`,
     authorizationHeader: yup
       .string()
       .trim()
@@ -33,13 +34,10 @@ export const publicConfig = Object.freeze({
       .trim()
       .default('request-id')
       .validateSync(process.env.NEXT_PUBLIC_PLATFORM_REQUEST_ID_HEADER),
-    socketUrl: yup
-      .string()
-      .trim()
-      .default('http://localhost:3005/socket.io')
-      .validateSync(publicRuntimeConfig.NEXT_PUBLIC_SOCKET_PLATFORM_URL),
+    socketUri: `${platformUrl}/socket.io`,
     socketSecure: yup.boolean().default(false).validateSync(process.env.NEXT_PUBLIC_SOCKET_SECURE),
     gatewayEnabled: yup.boolean().default(true).validateSync(process.env.NEXT_PUBLIC_GATEWAY_ENABLED),
+
   },
   frontend: {
     maxChatCharacters: yup.number().default(1000).validateSync(process.env.NEXT_PUBLIC_MAX_CHAT_CHARACTERS),

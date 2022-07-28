@@ -1,4 +1,0 @@
-name,key,maxSize,isPublicByDefault,fileCategoryContentTypes@key
-Files for users,USER_FILES,20000000,false,[application/pdf-application/msword-application/vnd.openxmlformats_officedocument.wordprocessingml.document-image/jpeg-image/png]
-Avatar,USER_AVATAR,5000000,true,[image/jpeg-image/png]
-Book Files,BOOK_FILES,50000000,true,[application/pdf-application/msword-application/vnd.openxmlformats_officedocument.wordprocessingml.document]

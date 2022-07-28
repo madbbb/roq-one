@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "graphdoc": {
-    "endpoint": "https://saturn-pp.roq-platform.com/v01/server/graphql",
+    "endpoint": "https://roq-snapshot-space-ytqhysh7ka-ew.a.run.app/graphql",
     "output": "./doc/schema"
   },
   "private": true,
@@ -20,7 +20,6 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "generateDocs": "node_modules/.bin/spectaql graphqlDocs/config.yml -t ./graphqlDocs/docs",
     "import:dev": "npm run console:dev import-entities",
-    "import:initial": "npm run console:dev import-entities -- --initial",
     "import": "node dist/src/console.js import-entities",
     "import-event-subscribers:dev": "npm run console:dev import-event-subscribers",
     "import-event-subscribers": "node dist/src/console.js import-event-subscribers",

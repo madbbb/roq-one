@@ -1,5 +1,0 @@
-notificationTypeChannelWeb@key,icon,title,content,locale,key
-user-info,person,Neuer Benutzer,{{user.firstName}} {{user.lastName}} hat sich gerade bei ROQ One angemeldet,de-DE,user-info-de-DE
-user-info,person,New user,{{user.firstName}} {{user.lastName}} just joined ROQ One,en-US,user-info-en-US
-files-new,attachment,Neue Datei,Eine neue Datei {{file.name}} wurde hochgeladen von {{creator.firstName}} {{creator.lastName}}. Klicke [hier]({{BASE_URL}}/files) um sie zu sehen.,de-DE,files-new-de-DE
-files-new,attachment,New file,A new file {{file.name}} is uploaded by {{creator.firstName}} {{creator.lastName}}. Click [here]({{BASE_URL}}/files) to view.,en-US,files-new-en-US

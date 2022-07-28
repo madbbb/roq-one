@@ -2,7 +2,7 @@ import axios from 'axios'
 import { publicConfig, serverConfig } from "configuration/app";
 
 const client = axios.create({
-  baseURL: publicConfig.platform.host
+  baseURL: publicConfig.platform.url
 })
 
 export async function authorizeServiceAccount(): Promise<string> {

@@ -25,7 +25,7 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md|ts|tsx)\"",
     "lint": "eslint src --fix && tsc",
     "sniff": "eslint src --fix -f json -o ../frontend-lint-report.json",
-    "translate": "(tsc src/scripts/*.ts --skipLibCheck --skipDefaultLibCheck --module commonjs --esModuleInterop --outDir dist --baseUrl ./src && NODE_PATH=dist/ i18next  && NODE_PATH=dist/ TRANSLATION_LOAD_CHUNK_SIZE=100 node -r dotenv/config dist/scripts/translation-loader.js) || exit 1",
+    "translate": "(tsc src/scripts/*.ts --skipLibCheck --skipDefaultLibCheck --module commonjs --esModuleInterop --outDir dist --baseUrl ./src && NODE_PATH=dist/ i18next  && NODE_PATH=dist/ TRANSLATION_LOAD_CHUNK_SIZE=100 node dist/scripts/translation-loader.js) || exit 1",
     "bb:build": "i18next && next build",
     "analyze": "ANALYZE_WEBPACK_BUNDLE=true next build",
     "postinstall": "patch-package"
@@ -50,7 +50,6 @@
     "date-fns": "^2.27.0",
     "date-fns-tz": "^1.1.6",
     "deepmerge": "^4.2.2",
-    "dotenv": "^16.0.1",
     "draft-convert": "^2.1.12",
     "draft-js": "^0.11.7",
     "draft-js-link-detection-plugin": "0.0.4",

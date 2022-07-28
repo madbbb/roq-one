@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 
 export const useNotificationsSidebarStyles = makeStyles((theme: Theme) => ({
   drawerRoot: {
-    zIndex: theme.zIndex.drawer + 2000,
+    zIndex: theme.zIndex.drawer + 20,
   },
   drawerPaper: {
     width: 428,

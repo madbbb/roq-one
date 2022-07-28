@@ -33,7 +33,7 @@ export default function socketClient(namespace = ''): SocketClientInterface | nu
       auth: { platformAccessToken },
     } = store.getState() as StoreInterface;
 
-    const socketUrl = new URL(publicConfig.platform.socketUrl);
+    const socketUrl = new URL(publicConfig.platform.socketUri);
 
     const clientInstance = io(`${socketUrl.origin}/${namespace}`, {
       secure: publicConfig.platform.socketSecure,

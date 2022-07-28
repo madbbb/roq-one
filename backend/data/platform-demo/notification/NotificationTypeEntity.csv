@@ -1,4 +1,0 @@
-notificationTypeCategory@key,key,description,isActive,defaultUserActiveWeb,defaultUserActiveMail
-onboarding,user-info,I would like to get notified in-app when a new user joins ROQ One (OptedIn = true),TRUE,TRUE,FALSE
-files,files-new,I want to receive notifications about new files (ROQ platform space),TRUE,TRUE,FALSE
-chat,chat-new,I want to receive notifications about new messages from ROQ platform chat,TRUE,TRUE,FALSE

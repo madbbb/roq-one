@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { FormikHelpers } from 'formik';
 import { useRouter, useTranslation } from 'modules/common/hooks';
 import { EXAMPLE_FORM_FIELD_MAX_LENGTH } from 'modules/example/constants';
+import { BOOK_UPLOAD_CONTENT_TYPE_ACCEPT } from 'modules/example/constants/book-entity-name.constant';
 import { AuthorInterface } from 'modules/example/interfaces';
 import { FormAlert } from 'modules/forms/components';
 import { AsyncSelect } from 'modules/forms/components/async-select';
@@ -206,7 +207,7 @@ export const BookCreateFormPartial: React.FC<BookCreateFormPartialInterface> = (
                 )
               }
               maxFiles={Math.max(3 - values.files.length, 0)}
-              accept={['application/pdf', 'image/png', 'image/jpeg']}
+              accept={BOOK_UPLOAD_CONTENT_TYPE_ACCEPT}
               disabled={values.files.length >= 3}
               helperText={Array.isArray(visibleErrors.files) ? '' : visibleErrors.files}
               error={Array.isArray(visibleErrors.files) ? false : Boolean(visibleErrors.files)}

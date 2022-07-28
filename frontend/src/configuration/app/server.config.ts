@@ -49,25 +49,25 @@ if (typeof window === 'undefined') {
       clientId: yup
         .string()
         .trim()
-        .default('285701372632-tnfg6ts212bnqoeio1hrhosmrte00hqc.apps.googleusercontent.com')
+        .default('CHANGE_ME_GOOGLE_CLIENT_ID')
         .validateSync(process.env.GOOGLE_CLIENT_ID),
       clientSecret: yup
         .string()
         .trim()
-        .default('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')
+        .default('CHANGE_ME_GOOGLE_CLIENT_SECRET')
         .validateSync(process.env.GOOGLE_CLIENT_SECRET),
     },
     linkedin: {
-      clientId: yup.string().trim().default('77ur05vja2ehus').validateSync(process.env.LINKEDIN_CLIENT_ID),
-      clientSecret: yup.string().trim().default('LjxYohan153uz9PR').validateSync(process.env.LINKEDIN_CLIENT_SECRET),
+      clientId: yup.string().trim().default('CHANGE_ME_LINKEDIN_CLIENT_ID').validateSync(process.env.LINKEDIN_CLIENT_ID),
+      clientSecret: yup.string().trim().default('CHANGE_ME_LINKEDIN_CLIENT_SECRET').validateSync(process.env.LINKEDIN_CLIENT_SECRET),
     },
     apple: {
-      clientId: yup.string().trim().default('com.roq-one.development').validateSync(process.env.APPLE_CLIENT_ID),
+      clientId: yup.string().trim().default('CHANGE_ME_APPLE_CLIENT_ID').validateSync(process.env.APPLE_CLIENT_ID),
       clientSecret: yup
         .string()
         .trim()
         .default(
-          'eyJhbGciOiJFUzI1NiIsInR5cCI6Imp3dCIsImtpZCI6IkpNV1A1MjRBTTkifQ.eyJpc3MiOiI1OUpLQzM4TDU0IiwiYXVkIjoiaHR0cHM6Ly9hcHBsZWlkLmFwcGxlLmNvbSIsInN1YiI6ImNvbS5yb3Etb25lLmRldmVsb3BtZW50IiwiaWF0IjoxNjQ3MzcxNjU3LCJleHAiOjE2NjMxMzk2NTd9.4xme3wp3x_fJbImAJqJxyGmmLINDy9PVZTA7695hbdQ9AGmG-awZYSFyi8jxbJ_qpk4_ZW3QeuFp4PN8je0wIg',
+          'CHANGE_ME_APPLE_CLIENT_SECRET',
         )
         .validateSync(process.env.APPLE_CLIENT_SECRET),
     },

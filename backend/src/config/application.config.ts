@@ -41,8 +41,9 @@ export const applicationConfig = registerAs('application', () => ({
   queryDepthIgnoreFields: process.env.QUERY_DEPTH_IGNORE_FIELDS.split(','),
   platform: {
     userSyncCronInterval: process.env.ROQ_PLATFORM_USER_SYNC_CRON_INTERVAL,
-    host: process.env.ROQ_PLATFORM_URL,
-    url: process.env.ROQ_PLATFORM_HOST,
+    url: process.env.ROQ_PLATFORM_URL,
+    graphqlUri: `${process.env.ROQ_PLATFORM_URL}/server/graphql`,
+    socketUri: `${process.env.ROQ_PLATFORM_URL}/socket.io`,
     authorizationHeader: process.env.ROQ_PLATFORM_AUTHORIZATION_HEADER,
     requestIdHeader: process.env.ROQ_PLATFORM_REQUEST_ID_HEADER,
     requestCallerHeader: process.env.ROQ_PLATFORM_REQUEST_CALLER_HEADER,
@@ -84,9 +85,6 @@ export const applicationConfig = registerAs('application', () => ({
       .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
   },
   autoEmailConfirmation: process.env.AUTO_EMAIL_CONFIRMATION === 'true',
-  importDataConfigs: process.env.IMPORT_DATA_CONFIG.split(';').map((config: string) => {
-    const [source, features, platform] = config.split(':');
-    return { source, features: features ? features.split(',') : [], isPlatform: platform === 'platform' };
-  }),
+  importDataConfigs: process.env.IMPORT_DATA_CONFIG.split(';'),
   isConsoleCommand: process.env.IS_CONSOLE_COMMAND === 'true',
 }));

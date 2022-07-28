@@ -9,7 +9,7 @@ let clientSingleton;
 let token;
 export function apolloClient(): ApolloClient<InMemoryCache> {
   if (!clientSingleton) {
-    const serverAddress = `${publicConfig.platform.url}`;
+    const serverAddress = `${publicConfig.platform.graphqlUri}`;
 
     const httpLink = createHttpLink({
       uri: serverAddress,

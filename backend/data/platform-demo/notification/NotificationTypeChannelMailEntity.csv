@@ -1,4 +1,0 @@
-notificationType@key,isActive,mailTypeId,key
-user-info,TRUE,USER_INFO_MAIL,user-info
-files-new,TRUE,FILES_NEW_MAIL,files-new
-chat-new,TRUE,CHAT_NEW,chat-new
