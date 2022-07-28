@@ -54,6 +54,9 @@ export class ImportConsole {
   async importEntities(flush: boolean, connection: Connection, source: string): Promise<void> {
     try {
       const directory = `../../../data/${source}`;
+      if (!fs.existsSync(path.join(__dirname, directory))) {
+        return Promise.resolve();
+      }
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: `Reading of files started for ${source}`,

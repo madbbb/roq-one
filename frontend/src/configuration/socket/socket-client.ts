@@ -42,7 +42,7 @@ export default function socketClient(namespace = ''): SocketClientInterface | nu
       autoConnect: false,
       forceNew: true,
       reconnection: true,
-      reconnectionDelay: 500,
+      reconnectionDelay: 3000,
       reconnectionAttempts: Infinity,
       extraHeaders: {
         PlatformToken: platformAccessToken,
