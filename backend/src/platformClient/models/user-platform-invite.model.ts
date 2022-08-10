@@ -1,6 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Trim } from 'src/library/decorators';
-import { JsonObject } from 'src/library/scalars';
+import { JsonObject, Trim } from '@roq/core';
 import { UserPlatformModel } from 'src/platformClient/models/user-platform.model';
 import { UserPlatformTokenModel } from 'src/platformClient/models/user-platform-token.model';
 

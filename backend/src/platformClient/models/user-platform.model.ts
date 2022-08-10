@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Trim } from 'src/library/decorators';
+import { Trim } from '@roq/core';
 import {
   RolePageModel,
   UserGroupPageModel,

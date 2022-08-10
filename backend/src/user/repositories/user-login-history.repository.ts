@@ -1,4 +1,4 @@
-import { BaseRepository } from 'src/library/repositories';
+import { BaseRepository } from '@roq/core';
 import { UserLoginHistoryEntity } from 'src/user/entities';
 import { UserLoginHistoryFindQueryInterface } from 'src/user/interfaces';
 import { EntityRepository } from 'typeorm';

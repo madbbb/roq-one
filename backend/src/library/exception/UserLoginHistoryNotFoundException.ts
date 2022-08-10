@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
+import { prepareError } from '@roq/core';
 import { ErrorCodeEnum } from 'src/library/enums';
-import { prepareError } from 'src/library/exception/utils';
 
 interface VariablesInterface {
   id: string;

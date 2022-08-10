@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NestDataLoader } from '@roq/nestjs-dataloader';
+import { NestDataLoader, OrderEnum } from '@roq/core';
 import * as DataLoader from 'dataloader';
-import { OrderEnum } from 'src/library/enums';
 import { UserLoginHistoryEntity } from 'src/user/entities';
 import { UserLoginHistoryOrderSortEnum } from 'src/user/enums';
 import { UserLoginHistoryFindQueryInterface } from 'src/user/interfaces';

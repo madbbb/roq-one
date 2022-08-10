@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString } from 'class-validator';
-import { Trim } from 'src/library/decorators';
+import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString } from '@roq/class-validator';
+import { Trim } from '@roq/core';
 
 @InputType()
 export class LoginDto {

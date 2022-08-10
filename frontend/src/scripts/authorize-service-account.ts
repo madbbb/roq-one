@@ -10,6 +10,8 @@ export async function authorizeServiceAccount(): Promise<string> {
     tenantId: serverConfig.platform.tenantId,
     apiKey: serverConfig.platform.apiKey,
     email: serverConfig.platform.serviceAccount
+  }).catch(err => {
+    throw new Error(err?.response?.data?.message);
   })
   return response.data.accessToken
 }

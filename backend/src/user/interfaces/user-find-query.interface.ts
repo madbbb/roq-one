@@ -1,12 +1,11 @@
-import { OrderEnum } from 'src/library/enums';
-import {
-  BooleanFilterInterface,
+import {   BooleanFilterInterface,
   DateFilterInterface,
   IdFilterInterface,
+  OrderEnum,
   QueryFilterInterface,
   QueryInterface,
   StringFilterInterface,
-} from 'src/library/interfaces';
+ } from '@roq/core';
 import { UserOrderSortEnum, UserSearchKeyEnum } from 'src/user/enums';
 
 export interface UserFindQueryInterface extends QueryInterface {

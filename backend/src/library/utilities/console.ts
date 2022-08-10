@@ -1,17 +1,17 @@
 /* eslint-disable @roq/filename-suffix-mismatch */
 import { ConfigService } from '@nestjs/config';
+import { createLogger } from '@roq/core';
 import { BootstrapConsole } from 'nestjs-console';
 import { AppModule } from 'src/app.module';
-import { createLogger } from 'src/logger';
 
 const bootstrap = new BootstrapConsole({
   module: AppModule,
   useDecorators: true,
 });
+process.env.IS_CONSOLE_COMMAND = 'true';
 bootstrap
   .init()
   .then(async (app) => {
-    process.env.IS_CONSOLE_COMMAND = 'true';
     const configService = app.get(ConfigService);
     app.useLogger(createLogger(configService));
     await app.init();

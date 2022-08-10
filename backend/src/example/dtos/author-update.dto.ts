@@ -11,8 +11,8 @@ import {
   MaxLength,
   MinLength,
 } from '@roq/class-validator';
+import { JsonObject } from '@roq/core';
 import { AuthorGenderEnum } from 'src/example/enums';
-import { JsonObject } from 'src/library/scalars';
 
 @InputType()
 export class AuthorUpdateDto {

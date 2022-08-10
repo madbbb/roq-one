@@ -1,8 +1,9 @@
-import { ExecutionContext } from '@nestjs/common';
+import { ExecutionContext, INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Test } from '@nestjs/testing';
+import { PlatformClientService, PlatformServiceAccountClientService } from '@roq/core';
 import { JwtAuthGuard } from 'src/auth/guards';
-import { PlatformClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 import { UserInternalModule } from 'src/userInternal';
 import * as request from 'supertest';
 import { configModules, defaultProviders, importFixtures } from 'test/helpers';
@@ -44,8 +45,9 @@ const initializeApp = async (mockedPlatformService?: { request: (args?) => Recor
 };
 
 describe('Avatar', () => {
+  let configService: ConfigService;
   describe('saveUserFile', () => {
-    let app;
+    let app: INestApplication;
     beforeAll(async () => {
       const mockedPlatformService = {
         request: () => ({
@@ -55,6 +57,7 @@ describe('Avatar', () => {
         })
       };
       app = await initializeApp(mockedPlatformService);
+      configService = app.get<ConfigService>(ConfigService);
     });
 
     afterAll(async () => {
@@ -78,7 +81,7 @@ describe('Avatar', () => {
   });
 
   describe('updateUserAvatar', () => {
-    let app;
+    let app: INestApplication;
     beforeAll(async () => {
       const mockedPlatformService = {
         request: () => ({
@@ -87,6 +90,7 @@ describe('Avatar', () => {
         })
       };
       app = await initializeApp(mockedPlatformService);
+      configService = app.get<ConfigService>(ConfigService);
     });
 
     afterAll(async () => {
@@ -109,7 +113,7 @@ describe('Avatar', () => {
   });
 
   describe('userAvatar', () => {
-    let app;
+    let app: INestApplication;
     let transactionalContext;
     let connection;
     beforeAll(async () => {
@@ -134,13 +138,14 @@ describe('Avatar', () => {
         }
       };
       app = await initializeApp(mockedPlatformService);
+      configService = app.get<ConfigService>(ConfigService);
     });
 
     beforeEach(async () => {
       connection = getConnection();
       transactionalContext = new TransactionalTestContext(connection);
       await transactionalContext.start();
-      await importFixtures(connection);
+      await importFixtures(connection, configService);
     });
 
     afterEach(async () => {

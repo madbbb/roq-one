@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { JsonObject } from 'src/library/scalars';
+import { JsonObject } from '@roq/core';
 import { UserInviteStatusEnum } from 'src/platformClient/enums/user-invite-status.enum';
 
 @InputType()

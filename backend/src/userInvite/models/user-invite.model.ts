@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { JsonObject } from '@roq/core';
 import { Type } from 'class-transformer';
-import { JsonObject } from 'src/library/scalars';
 import { UserModel } from 'src/user/models';
 import { UserTokenModel } from 'src/userInvite/models';
 

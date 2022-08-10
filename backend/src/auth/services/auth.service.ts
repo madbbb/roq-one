@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventTriggerService, Logger, MailSendDto, MailTypeEnum, PlatformHttpClientService, PlatformMailClientService, PlatformUserClientService, UserProviderType, UserTokenResponseType } from '@roq/core';
 import * as bcrypt from 'bcrypt';
 import { omit } from 'lodash';
 import {
@@ -20,7 +21,6 @@ import { AuthRegisterOptionsInterface } from 'src/auth/interfaces';
 import { CheckUserRestorePasswordTokenModel, SessionModel } from 'src/auth/models';
 import { LoginMetaType } from 'src/auth/types';
 import { applicationConfig } from 'src/config';
-import { EventTriggerService } from 'src/event/services';
 import {
   UserEmailAlreadyExistsException,
   UserEmailNotProvidedException,
@@ -29,13 +29,6 @@ import {
   UserInvalidTokenException,
   UserNotConfirmedException,
 } from 'src/library/exception';
-import { Logger } from 'src/logger/services';
-import { MailTypeEnum } from 'src/platformClient/platformMailClient/enums';
-import { PlatformMailClientService } from 'src/platformClient/platformMailClient/services';
-import { MailSendDto } from 'src/platformClient/platformMailClient/types';
-import { PlatformUserClientService } from 'src/platformClient/platformUserClient/services';
-import { UserProviderType, UserTokenResponseType } from 'src/platformClient/platformUserClient/types';
-import { PlatformHttpClientService } from 'src/platformClient/services';
 import { UserEntity } from 'src/user/entities';
 import { UserRepository } from 'src/user/repositories';
 import { UserLoginHistoryService } from 'src/user/services';

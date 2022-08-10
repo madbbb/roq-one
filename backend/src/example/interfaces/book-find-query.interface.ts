@@ -1,13 +1,12 @@
-import { BookOrderSortEnum, BookSearchKeyEnum } from 'src/example/enums';
-import { OrderEnum } from 'src/library/enums';
-import {
-  BooleanFilterInterface,
+import {   BooleanFilterInterface,
   DateFilterInterface,
   IdFilterInterface,
+OrderEnum,
   QueryFilterInterface,
   QueryInterface,
   StringFilterInterface,
-} from 'src/library/interfaces';
+ } from '@roq/core';
+import { BookOrderSortEnum, BookSearchKeyEnum } from 'src/example/enums';
 
 export interface BookFindQueryInterface extends QueryInterface {
   order?: {

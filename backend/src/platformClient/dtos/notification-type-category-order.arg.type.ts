@@ -1,8 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDefined, IsEnum } from '@roq/class-validator';
-import { OrderEnum } from 'src/library/enums';
-
-import { NotificationTypeCategoryOrderSortEnum } from '../platformNotificationClient/enums';
+import { NotificationTypeCategoryOrderSortEnum, OrderEnum } from '@roq/core';
 
 @InputType()
 export class NotificationTypeCategoryOrderArgType {

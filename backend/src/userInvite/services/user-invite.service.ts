@@ -1,16 +1,22 @@
+import { gql } from '@apollo/client/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import {
+  clearUserRefreshTokensMutation,
+  getGqlOperationName,
+  Logger,
+  LoggingTypeEnum,
+  NotificationCreateMutationArgs,
+  PlatformClientService,
+  PlatformNotificationClientService,
+  PlatformUserClientService,
+} from '@roq/core';
 import { print } from 'graphql/language/printer';
 import { UserTokenTypeEnum } from 'src/auth/enums';
 import { AuthService } from 'src/auth/services';
 import { applicationConfig } from 'src/config';
-import { LoggingTypeEnum } from 'src/logger/enums';
-import { Logger } from 'src/logger/services';
-import { getGqlOperationName } from 'src/logger/utilities';
-import { PlatformNotificationClientService } from 'src/platformClient/platformNotificationClient/services';
-import { NotificationCreateMutationArgs } from 'src/platformClient/platformNotificationClient/types';
-import { clearUserRefreshTokensMutation } from 'src/platformClient/platformUserClient/graphql';
-import { PlatformUserClientService } from 'src/platformClient/platformUserClient/services';
+import { UserInvitesCreateDto } from 'src/platformClient/dtos';
+import { CreateUserInvitesModel, UserPlatformInviteModel } from 'src/platformClient/models';
 import { AcceptUserInviteDto } from 'src/userInvite/dtos';
 import { CheckUserInviteTokenModel, UserInviteModel } from 'src/userInvite/models';
 
@@ -23,6 +29,7 @@ export class UserInviteService {
     @Inject(applicationConfig.KEY)
     private readonly appConfig: ConfigType<typeof applicationConfig>,
     private readonly logger: Logger,
+    private readonly platformClientService: PlatformClientService,
   ) {}
 
   async checkUserInviteToken(token: string): Promise<CheckUserInviteTokenModel> {
@@ -76,5 +83,85 @@ export class UserInviteService {
     });
 
     await this.platformUserClientService.clearUserRefreshTokens(userId);
+  }
+
+  public async sendUserInvites(userInvites: UserInvitesCreateDto): Promise<CreateUserInvitesModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
+        mutation CreateUserInvites($userInvites: UserInvitesCreateDto!) {
+          sendUserInvites(userInvites: $userInvites) {
+            success {
+              id
+              email
+              firstName
+              lastName
+              status
+              createdAt
+            }
+            errors {
+              error
+              email
+            }
+          }
+        }
+      `,
+      variables: {
+        userInvites,
+      },
+    });
+
+    return data?.sendUserInvites;
+  }
+
+  public async resendUserInvite(id: string): Promise<UserPlatformInviteModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
+        mutation ResendUserInvite($id: ID!) {
+          resendUserInvite(id: $id) {
+            id
+            status
+            userToken {
+              id
+              validTill
+              userId
+              user {
+                id
+                email
+              }
+            }
+            createdByUserId
+            createdBy {
+              id
+              email
+            }
+            userTokenId
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    });
+
+    return data.resendUserInvite;
+  }
+
+  public async cancelUserInvite(id: string): Promise<UserPlatformInviteModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
+        mutation CancelUserInvite($id: ID!) {
+          cancelUserInvite(id: $id) {
+            id
+            status
+            statusUpdatedAt
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    });
+
+    return data?.cancelUserInvite;
   }
 }

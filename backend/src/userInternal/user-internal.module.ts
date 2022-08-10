@@ -1,14 +1,7 @@
 // eslint-disable-next-line @roq/filename-suffix-mismatch
 import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { DataLoaderInterceptor } from '@roq/nestjs-dataloader';
-import { EventModule } from 'src/event';
-import { LibraryModule } from 'src/library';
-import { Logger } from 'src/logger/services';
-import { PlatformClientModule } from 'src/platformClient';
-import { PlatformNotificationClientModule } from 'src/platformClient/platformNotificationClient';
-import { PlatformSpaceClientModule } from 'src/platformClient/platformSpaceClient';
-import { PlatformUserClientModule } from 'src/platformClient/platformUserClient';
+import { BaseMultipleEntityLoader, BaseSingleEntityLoader, DataLoaderInterceptor, EventModule, LibraryModule, Logger, PlatformClientModule, PlatformNotificationClientModule, PlatformSpaceClientModule, PlatformUserClientModule } from '@roq/core';
 import { UserModule } from 'src/user';
 import { UserInternalListener } from 'src/userInternal/listeners';
 import { UserInternalAvatarLoader, UserInternalLastLoginActivityLoader } from 'src/userInternal/loaders';
@@ -41,6 +34,8 @@ import { UserInviteModule } from 'src/userInvite';
       provide: APP_INTERCEPTOR,
       useClass: DataLoaderInterceptor,
     },
+    BaseSingleEntityLoader,
+    BaseMultipleEntityLoader,
   ],
   exports: [UserInternalService],
   controllers: [],

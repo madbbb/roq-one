@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDefined, IsEmail, IsString } from '@roq/class-validator';
-import { Trim } from 'src/library/decorators';
+import { Trim } from '@roq/core';
 
 @InputType()
 export class ForgotPasswordDto {

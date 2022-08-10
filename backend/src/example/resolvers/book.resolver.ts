@@ -1,7 +1,6 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, ID, Info, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Loader } from '@roq/nestjs-dataloader';
+import { Loader, ParseUUIDStringPipe, PlatformSpaceClientService, SingleLoader, UtilityService } from '@roq/core';
 import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
@@ -10,19 +9,14 @@ import { BOOK_FILE_CATEGORY } from 'src/example/constants';
 import { BookArgType, BookBulkArgType, BookCreateDto, BookFileCreateDto, BookUpdateDto } from 'src/example/dtos';
 import { AuthorEntity } from 'src/example/entities';
 import { AuthorFindQueryInterface, BookFileFindQueryInterface } from 'src/example/interfaces';
-import { AuthorLoader, BookFileLoader } from 'src/example/loaders';
+import { BookFileLoader } from 'src/example/loaders';
 import { AuthorModel, BookFileModel, BookModel, BookPageModel } from 'src/example/models';
-import { BookRepository } from 'src/example/repositories';
+import { AuthorRepository } from 'src/example/repositories';
 import { BookService } from 'src/example/services';
-import { ParseUUIDStringPipe } from 'src/library/pipes';
-import { UtilityService } from 'src/library/services';
-import { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services';
 
 @Resolver(() => BookModel)
 export class BookResolver {
   constructor(
-    @InjectRepository(BookRepository)
-    private readonly bookRepository: BookRepository,
     private readonly bookService: BookService,
     private readonly utilityService: UtilityService,
     private readonly platformSpaceClientService: PlatformSpaceClientService,
@@ -113,7 +107,7 @@ export class BookResolver {
   @ResolveField(() => AuthorModel)
   async author(
     @Parent() bookModel: BookModel,
-    @Loader(AuthorLoader)
+    @SingleLoader(AuthorRepository)
     authorLoader: DataLoader<AuthorFindQueryInterface, AuthorEntity>,
     @Info() info: GraphQLResolveInfo,
   ): Promise<AuthorModel> {

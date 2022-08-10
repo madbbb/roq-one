@@ -1,14 +1,23 @@
 import { Module } from '@nestjs/common';
+import {
+  Logger,
+  PlatformClientModule as BasePlatformClientModule,
+  PlatformNotificationClientModule,
+  PlatformUserClientModule,
+} from '@roq/core';
 import { AuthModule } from 'src/auth';
-import { Logger } from 'src/logger/services';
-import { PlatformNotificationClientModule } from 'src/platformClient/platformNotificationClient';
-import { PlatformUserClientModule } from 'src/platformClient/platformUserClient';
 import { UserModule } from 'src/user';
 import { UserInviteResolver } from 'src/userInvite/resolvers';
 import { UserInviteService } from 'src/userInvite/services';
 
 @Module({
-  imports: [AuthModule, UserModule, PlatformUserClientModule, PlatformNotificationClientModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    PlatformUserClientModule,
+    PlatformNotificationClientModule,
+    BasePlatformClientModule,
+  ],
   providers: [UserInviteResolver, UserInviteService, Logger],
   exports: [UserInviteService],
 })

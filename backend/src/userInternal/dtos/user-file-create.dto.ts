@@ -8,7 +8,7 @@ import {
   IsString,
   MaxLength,
 } from '@roq/class-validator';
-import { JsonObject } from 'src/library/scalars';
+import { JsonObject } from '@roq/core';
 
 @InputType()
 export class UserFileCreateDto {

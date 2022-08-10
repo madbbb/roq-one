@@ -1,7 +1,9 @@
+import { INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
+import { PlatformClientService, PlatformServiceAccountClientService } from '@roq/core';
 import { LoginProviderEnum, UserTokenTypeEnum } from 'src/auth/enums';
 import { ApiKeyAuthGuard } from 'src/auth/guards';
-import { PlatformClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 import { UserEntity } from 'src/user/entities';
 import { UserInternalModule } from 'src/userInternal';
 import { UserInviteService } from 'src/userInvite/services';
@@ -49,18 +51,19 @@ const initializeApp = async (mockedPlatformService?: { request: (args?) => Recor
 describe('User Activation and Deactivation', () => {
   let transactionalContext;
   let connection: Connection;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     transactionalContext = new TransactionalTestContext(connection);
     await transactionalContext.start();
-    await importFixtures(connection);
+    await importFixtures(connection, configService);
   });
 
   afterEach(async () => {
     await transactionalContext.finish();
   });
   describe('Deactivate User', () => {
-    let app;
+    let app: INestApplication;
 
     beforeAll(async () => {
       const mockedPlatformService = {
@@ -91,6 +94,7 @@ describe('User Activation and Deactivation', () => {
         },
       };
       app = await initializeApp(mockedPlatformService);
+      configService = app.get<ConfigService>(ConfigService);
       connection = getConnection();
     });
 

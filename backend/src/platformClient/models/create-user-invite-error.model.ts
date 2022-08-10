@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Trim } from 'src/library/decorators';
+import { Trim } from '@roq/core';
 
 @ObjectType()
 export class CreateUserInviteErrorModel {

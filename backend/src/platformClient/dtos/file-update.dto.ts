@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsObject, IsOptional, IsString, MaxLength } from '@roq/class-validator';
-import { JsonObject } from 'src/library/scalars';
+import { JsonObject } from '@roq/core';
 
 @InputType()
 export class FileUpdateDto {

@@ -23,8 +23,8 @@ RUN npm run createSchema && \
 
 FROM node:16-alpine3.14 AS runtime-image
 WORKDIR /app
-COPY /backend/data ./dist/data
 COPY --from=compile-stage /app/backend/dist ./dist
 COPY --from=compile-stage /app/backend/node_modules ./node_modules
+WORKDIR /app/dist
 RUN ln -s /etc/secrets/.env .env
-CMD [ "node", "dist/src/main.js" ]
+CMD [ "node", "src/main.js" ]

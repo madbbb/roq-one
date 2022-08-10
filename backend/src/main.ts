@@ -1,12 +1,9 @@
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { createLogger, getEnvVars, Logger, LoggerExceptionFilter, LoggingTypeEnum } from '@roq/core';
 import { join } from 'path';
 import { AppModule } from 'src/app.module';
-import { getEnvVars } from 'src/library/utilities';
-import { createLogger, LoggerExceptionFilter } from 'src/logger';
-import { LoggingTypeEnum } from 'src/logger/enums';
-import { Logger } from 'src/logger/services';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

@@ -1,9 +1,8 @@
-export { DefaultLocaleUndefinedException } from './DefaultLocaleUndefinedException';
-export { EventSubscriberNotFoundException } from './EventSubscriberNotFoundException';
-export { EventTypeNotFoundException } from './EventTypeNotFoundException';
+// export { DefaultLocaleUndefinedException } from './DefaultLocaleUndefinedException';
+// export { EventSubscriberNotFoundException } from './EventSubscriberNotFoundException';
+// export { EventTypeNotFoundException } from './EventTypeNotFoundException';
 export { InvalidApiKeyException } from './InvalidApiKeyException';
 export { InvalidTokenException } from './InvalidTokenException';
-export { InvalidUUIDInputException } from './InvalidUUIDInputException';
 export { UnauthorizedException } from './UnauthorizedException';
 export { UserEmailAlreadyExistsException } from './UserEmailAlreadyExistsException';
 export { UserEmailNotProvidedException } from './UserEmailNotProvidedException';
@@ -14,5 +13,3 @@ export { UserNotConfirmedException } from './UserNotConfirmedException';
 export { UserNotFoundException } from './UserNotFoundException';
 export { UserActivationException } from './UserActivationException';
 export { UserIncorrectEmailPasswordException } from './UserIncorrectEmailPasswordException';
-export { InvalidContentTypeForFileCategoryException } from './InvalidContentTypeForFileCategoryException';
-export { ForbiddenException } from './ForbiddenException';
