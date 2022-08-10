@@ -1,6 +1,6 @@
+import { BaseRepository } from '@roq/core';
 import { BookEntity } from 'src/example/entities';
 import { BookFindQueryInterface } from 'src/example/interfaces';
-import { BaseRepository } from 'src/library/repositories';
 import { EntityRepository, SelectQueryBuilder } from 'typeorm';
 
 @EntityRepository(BookEntity)

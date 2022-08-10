@@ -1,14 +1,10 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { EventModule, Logger, PlatformClientModule, PlatformMailClientModule, PlatformUserClientModule } from '@roq/core';
 import { AuthResolver, SessionResolver } from 'src/auth/resolvers';
 import { AuthService } from 'src/auth/services';
 import { ApiKeyStrategy, JwtRefreshStrategy, JwtStrategy } from 'src/auth/strategies';
-import { EventModule } from 'src/event';
-import { Logger } from 'src/logger/services';
-import { PlatformClientModule } from 'src/platformClient';
-import { PlatformMailClientModule } from 'src/platformClient/platformMailClient';
-import { PlatformUserClientModule } from 'src/platformClient/platformUserClient';
 import { UserModule } from 'src/user';
 
 @Module({

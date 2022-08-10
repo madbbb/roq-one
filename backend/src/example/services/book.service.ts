@@ -1,16 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FileOrderSortEnum, FileResponseType, FileStatusEnum, OrderEnum, PlatformSpaceClientService, UtilityService } from '@roq/core';
 import { BOOK_ENTITY_NAME, BOOK_FILE_CATEGORY } from 'src/example/constants';
 import { BookCreateDto, BookUpdateDto } from 'src/example/dtos';
 import { BookEntity } from 'src/example/entities';
 import { BookFindQueryInterface } from 'src/example/interfaces';
 import { AuthorRepository, BookRepository } from 'src/example/repositories';
-import { OrderEnum } from 'src/library/enums';
-import { UtilityService } from 'src/library/services';
-import { FileOrderSortEnum, FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
-import { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services';
-import { FileResponseType } from 'src/platformClient/platformSpaceClient/types';
 
 @Injectable()
 export class BookService {

@@ -22,7 +22,7 @@
     "import:dev": "npm run console:dev import-entities",
     "import": "node dist/src/console.js import-entities",
     "import-event-subscribers:dev": "npm run console:dev import-event-subscribers",
-    "import-event-subscribers": "node dist/src/console.js import-event-subscribers",
+    "import-event-subscribers": "npm run console import-event-subscribers",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "migration:local:config": "node_modules/.bin/ts-node -r tsconfig-paths/register src/library/utilities/migration local",
     "migration:local:generate": "npm run typeorm:local -- migration:generate -n ",
@@ -66,6 +66,7 @@
     "@nestjs/typeorm": "^8.0.4",
     "@newrelic/apollo-server-plugin": "^1.3.0",
     "@roq/class-validator": "^0.1.0",
+    "@roq/core": "^1.0.0",
     "@roq/nestjs-dataloader": "^0.0.1",
     "apollo-server-express": "^3.8.1",
     "axios": "^0.21.4",
@@ -156,5 +157,9 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "volta": {
+    "node": "16.16.0",
+    "npm": "7.24.2"
   }
 }

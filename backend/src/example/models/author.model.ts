@@ -1,7 +1,7 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { JsonObject } from '@roq/core';
 import { AuthorGenderEnum } from 'src/example/enums';
 import { BookPageModel } from 'src/example/models';
-import { JsonObject } from 'src/library/scalars';
 
 @ObjectType()
 export class AuthorModel {

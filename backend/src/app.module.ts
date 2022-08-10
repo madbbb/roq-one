@@ -12,21 +12,25 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {
+  EventModule,
+  ExceptionService,
+  ImportConsole,
+  ImportModule,
+  Logger,
+  LoggerInterceptor,
+  PlatformSpaceClientModule,
+  queryDepthValidation,
+  RequestShareInterceptor,
+} from '@roq/core';
 import { ClsInterceptor, ClsModule } from 'nestjs-cls';
 import { ConsoleModule } from 'nestjs-console';
 import { join } from 'path';
 import { AuthModule } from 'src/auth';
 import { applicationConfig, validationSchema } from 'src/config';
-import { EventModule } from 'src/event';
+import * as platformEventSubscribers from 'src/config/platform-events.json';
 import { ExampleModule } from 'src/example';
-import { ImportConsole, ImportModule } from 'src/import';
-import { RequestShareInterceptor } from 'src/library/interceptors';
-import { ExceptionService } from 'src/library/services';
-import { queryDepthValidation } from 'src/library/utilities';
-import { LoggerInterceptor } from 'src/logger/interceptors';
-import { Logger } from 'src/logger/services';
 import { PlatformClientModule } from 'src/platformClient';
-import { PlatformSpaceClientModule } from 'src/platformClient/platformSpaceClient';
 import { TestSetupModule } from 'src/testSetup';
 import { UserModule } from 'src/user';
 import { UserInternalModule } from 'src/userInternal';
@@ -132,7 +136,7 @@ export class AppModule implements NestModule {
     importConsole: ImportConsole,
   ) {
     if (!appConfig.isConsoleCommand) {
-      importConsole.importEventSubscribers();
+      void importConsole.importEventSubscribers(platformEventSubscribers);
     }
   }
 

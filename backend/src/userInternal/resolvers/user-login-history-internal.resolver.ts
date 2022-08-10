@@ -1,20 +1,17 @@
 import { Args, Info, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Loader } from '@roq/nestjs-dataloader';
+import { ParseUUIDStringPipe, SingleLoader, UtilityService } from '@roq/core';
 import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
 import { UserLoginHistoryNotFoundException } from 'src/library/exception';
-import { ParseUUIDStringPipe } from 'src/library/pipes';
-import { UtilityService } from 'src/library/services';
 import {
   UserLoginHistoryArgType,
 } from 'src/user/dtos';
 import { UserEntity } from 'src/user/entities';
 import { UserFindQueryInterface } from 'src/user/interfaces';
-import { UserLoader } from 'src/user/loaders';
 import { UserLoginHistoryModel, UserLoginHistoryPageModel, UserModel } from 'src/user/models';
-import { UserLoginHistoryRepository } from 'src/user/repositories';
+import { UserLoginHistoryRepository, UserRepository } from 'src/user/repositories';
 import { UserLoginHistoryService } from 'src/user/services';
 
 @Resolver(() => UserLoginHistoryModel)
@@ -64,7 +61,7 @@ export class UserLoginHistoryInternalResolver {
   @ResolveField(() => UserModel)
   async user(
     @Parent() userLoginHistoryModel: UserLoginHistoryModel,
-    @Loader(UserLoader) userLoader: DataLoader<UserFindQueryInterface, UserEntity>,
+    @SingleLoader(UserRepository) userLoader: DataLoader<UserFindQueryInterface, UserEntity>,
     @Info() info: GraphQLResolveInfo,
   ): Promise<UserModel> {
     const fields = this.utilityService.getInfoFields(info);

@@ -1,7 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { FileStatusEnum, JsonObject } from '@roq/core';
 import { Type } from 'class-transformer';
-import { JsonObject } from 'src/library/scalars';
-import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
 
 @ObjectType()
 export class UserFileModel {

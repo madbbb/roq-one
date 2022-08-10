@@ -100,6 +100,7 @@ export const RegisterFormPartial: FunctionComponent<RegisterFormInterface> = (pr
         name="password"
         label={t('input.password.placeholder')}
         value={values.password}
+        helperText={visibleErrors.password}
         error={Boolean(visibleErrors.password)}
         fullWidth
         inputProps={{

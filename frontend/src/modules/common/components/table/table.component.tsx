@@ -1,5 +1,5 @@
+import { Column, MaterialTableProps, MTable } from '@roq/material-table';
 import snakeCase from 'lodash/snakeCase';
-import { Column, MaterialTableProps, MTable } from 'material-table';
 import { NoDataComponent } from 'modules/common/components/no-data';
 import { TableClasses, useTableStyles } from 'modules/common/components/table/table.styles';
 import { TableContainer } from 'modules/common/components/table-container';
@@ -9,7 +9,7 @@ import { useTranslation } from 'modules/common/hooks';
 import dynamic from 'next/dynamic';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MaterialTable = dynamic(import('material-table')) as any;
+const MaterialTable = dynamic(import('@roq/material-table')) as any;
 
 type SortOrder = 'asc' | 'desc';
 

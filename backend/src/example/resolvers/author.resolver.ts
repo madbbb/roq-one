@@ -9,8 +9,7 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Loader } from '@roq/nestjs-dataloader';
+import { ArrayLoaderResponseInterface, MultipleLoader, ParseUUIDStringPipe, UtilityService,  } from '@roq/core';
 import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
@@ -23,24 +22,18 @@ import {
 } from 'src/example/dtos';
 import { BookEntity } from 'src/example/entities';
 import { BookFindQueryInterface } from 'src/example/interfaces';
-import { AuthorBookLoader } from 'src/example/loaders';
 import {
   AuthorModel,
   AuthorPageModel,
   BookModel,
   BookPageModel,
 } from 'src/example/models';
-import { AuthorRepository } from 'src/example/repositories';
+import { BookRepository } from 'src/example/repositories';
 import { AuthorService } from 'src/example/services';
-import { ArrayLoaderResponseInterface } from 'src/library/interfaces';
-import { ParseUUIDStringPipe } from 'src/library/pipes';
-import { UtilityService } from 'src/library/services';
 
 @Resolver(() => AuthorModel)
 export class AuthorResolver {
   constructor(
-    @InjectRepository(AuthorRepository)
-    private readonly authorRepository: AuthorRepository,
     private readonly authorService: AuthorService,
     private readonly utilityService: UtilityService
   ) {}
@@ -120,7 +113,7 @@ export class AuthorResolver {
   async books(
     @Args({ type: () => BookArgType }) args: BookArgType,
     @Parent() authorModel: AuthorModel,
-    @Loader(AuthorBookLoader)
+    @MultipleLoader({ repository: BookRepository, relationProperty: 'authorId' })
     authorBookLoader: DataLoader<BookFindQueryInterface, ArrayLoaderResponseInterface<BookEntity>>,
     @Info() info: GraphQLResolveInfo
   ): Promise<BookPageModel> {

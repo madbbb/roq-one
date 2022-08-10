@@ -1,4 +1,4 @@
-import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
+import { FileStatusEnum } from '@roq/core';
 
 export const saveAvatarCompleteMutation = (fileSize: number | string = 12312312342): string => `
   mutation {

@@ -1,21 +1,20 @@
 import { DynamicModule, Type, ValidationPipe } from '@nestjs/common';
-import { ConfigModule, ConfigModuleOptions } from '@nestjs/config';
+import { ConfigModule, ConfigModuleOptions, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GqlModuleOptions, GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { ImportConsole, ImportModule, ImportService, Logger } from '@roq/core';
 import { ClsModule } from 'nestjs-cls';
 import * as path from 'path';
 import { applicationConfig, validationSchema } from 'src/config';
-import { ImportConsole, ImportModule } from 'src/import';
-import { ImportService } from 'src/import/services';
-import { Logger } from 'src/logger/services';
 import { Connection, getConnection } from 'typeorm';
 
-export const importFixtures = async (connection: Connection): Promise<void> => {
+export const importFixtures = async (connection: Connection, configService: ConfigService): Promise<void> => {
   const logger = new Logger();
-  const importer = new ImportConsole(logger, new ImportService(connection, logger), null, null);
-  await importer.importEntities(false, connection, '../test/fixtures');
+  const importer = new ImportConsole(logger, new ImportService(logger, configService, connection), configService, null);
+  const fixturesPath = path.join(__dirname, './fixtures');
+  await importer.importEntities(false, connection, { source: fixturesPath, absolute: true });
 };
 
 export const reinitialize = async (): Promise<void> => {

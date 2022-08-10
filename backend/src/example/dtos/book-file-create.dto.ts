@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ArrayMinSize, IsArray } from 'class-validator';
 import {
+  ArrayMinSize,
+  IsArray,
   IsDefined,
   IsMimeType,
   IsNotEmpty,
@@ -9,8 +10,8 @@ import {
   IsString,
   MaxLength,
 } from '@roq/class-validator';
+import { JsonObject } from '@roq/core';
 import { BookFileAssociationOptionsDto } from 'src/example/dtos';
-import { JsonObject } from 'src/library/scalars';
 
 @InputType()
 export class BookFileCreateDto {

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
 import { ValidateNested } from '@roq/class-validator';
-import { BaseFilterArgType, IdFilterArgType, StringFilterArgType } from 'src/library/argTypes';
+import { BaseFilterArgType, IdFilterArgType, StringFilterArgType } from '@roq/core';
+import { Type } from 'class-transformer';
 
 @InputType()
 export class NotificationTypeCategoryFilterArgType extends BaseFilterArgType {

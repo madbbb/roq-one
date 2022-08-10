@@ -2,18 +2,19 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CONTEXT } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
+import {   FileOrderSortEnum,
+  FileResponseType,
+  FileStatusEnum,
+  GraphqlContextInterface,
+  NotificationCreateMutationArgs,
+  OrderEnum,
+  PlatformNotificationClientService,
+  PlatformSpaceClientService,
+  PlatformUserClientService,
+  UserProviderType,
+  UtilityService } from '@roq/core';
 import { cloneDeep } from 'lodash';
-import { OrderEnum } from 'src/library/enums';
 import { UserActivationException, UserNotFoundException } from 'src/library/exception';
-import { GraphqlContextInterface } from 'src/library/interfaces';
-import { UtilityService } from 'src/library/services';
-import { PlatformNotificationClientService } from 'src/platformClient/platformNotificationClient/services';
-import { NotificationCreateMutationArgs } from 'src/platformClient/platformNotificationClient/types';
-import { FileOrderSortEnum, FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
-import { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services';
-import { FileResponseType } from 'src/platformClient/platformSpaceClient/types';
-import { PlatformUserClientService } from 'src/platformClient/platformUserClient/services';
-import { UserProviderType } from 'src/platformClient/platformUserClient/types';
 import { UserUpdateDto } from 'src/user/dtos';
 import { UserEntity } from 'src/user/entities';
 import { UserRepository } from 'src/user/repositories';

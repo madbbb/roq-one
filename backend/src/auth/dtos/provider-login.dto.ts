@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { LoginProviderEnum } from 'src/auth/enums';
 import { IsDefined, IsEnum, IsString } from '@roq/class-validator';
-import { Trim } from 'src/library/decorators';
+import { Trim } from '@roq/core';
+import { LoginProviderEnum } from 'src/auth/enums';
 
 @InputType()
 export class ProviderLoginDto {

@@ -1,12 +1,8 @@
 import { cloneDeep } from '@apollo/client/utilities';
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventInterface, EventNameEnum, EventTriggerService, Logger, LoggingTypeEnum } from '@roq/core';
 import { isEqual } from 'lodash';
-import { EventNameEnum } from 'src/event/enums';
-import { EventInterface } from 'src/event/interfaces';
-import { EventTriggerService } from 'src/event/services';
-import { LoggingTypeEnum } from 'src/logger/enums';
-import { Logger } from 'src/logger/services';
 import { UserEntity } from 'src/user/entities';
 import { UserRepository } from 'src/user/repositories';
 import { UserService } from 'src/user/services';

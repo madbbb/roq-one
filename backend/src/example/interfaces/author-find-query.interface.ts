@@ -1,13 +1,12 @@
-import { AuthorOrderSortEnum, AuthorSearchKeyEnum } from 'src/example/enums';
-import { OrderEnum } from 'src/library/enums';
-import {
-  DateFilterInterface,
+import {   DateFilterInterface,
   IdFilterInterface,
   IntFilterInterface,
+OrderEnum,
   QueryFilterInterface,
   QueryInterface,
   StringFilterInterface,
-} from 'src/library/interfaces';
+ } from '@roq/core';
+import { AuthorOrderSortEnum, AuthorSearchKeyEnum } from 'src/example/enums';
 
 export interface AuthorFindQueryInterface extends QueryInterface {
   order?: {

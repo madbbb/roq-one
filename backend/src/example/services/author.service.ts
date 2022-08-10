@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UtilityService } from '@roq/core';
 import { AuthorCreateDto, AuthorUpdateDto } from 'src/example/dtos';
 import { AuthorEntity } from 'src/example/entities';
 import { AuthorFindQueryInterface } from 'src/example/interfaces';
 import { AuthorRepository } from 'src/example/repositories';
-import { UtilityService } from 'src/library/services';
 
 @Injectable()
 export class AuthorService {

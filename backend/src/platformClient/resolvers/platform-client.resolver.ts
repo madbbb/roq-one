@@ -1,13 +1,20 @@
 import { gql } from '@apollo/client/core';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  BulkDeleteFilterArgType,
+  FileStatusEnum,
+  ParseUUIDStringPipe,
+  PlatformClientService,
+  PlatformHttpClientService,
+} from '@roq/core';
 import { plainToClass } from 'class-transformer';
-import { BulkDeleteFilterArgType } from 'src/library/argTypes';
-import { ParseUUIDStringPipe } from 'src/library/pipes';
-import { FileUpdateDto, NotificationTypeUserPreferenceUpsertDto, UserInvitesCreateDto } from 'src/platformClient/dtos';
-import { CreateUserInvitesModel, UserPlatformInviteModel } from 'src/platformClient/models';
-import { NotificationTypeCategoryModel, NotificationTypeCategoryPageModel, NotificationTypeUserPreferenceModel, NotificationWebModel } from 'src/platformClient/platformNotificationClient/models';
-import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
-import { PlatformClientService, PlatformHttpClientService } from 'src/platformClient/services';
+import { FileUpdateDto, NotificationTypeUserPreferenceUpsertDto } from 'src/platformClient/dtos';
+import {
+  NotificationTypeCategoryModel,
+  NotificationTypeCategoryPageModel,
+  NotificationTypeUserPreferenceModel,
+  NotificationWebModel,
+} from 'src/platformClient/models';
 import { UserFileModel } from 'src/userInternal/models';
 
 import { NotificationTypeCategoryArgType } from '../dtos/notification-type-category.arg.type';
@@ -16,7 +23,7 @@ import { NotificationTypeCategoryArgType } from '../dtos/notification-type-categ
 export class PlatformClientResolver {
   constructor(
     private readonly platformHttpClientService: PlatformHttpClientService,
-    private readonly platformClientService: PlatformClientService
+    private readonly platformClientService: PlatformClientService,
   ) {}
 
   @Query(() => String)
@@ -163,148 +170,49 @@ export class PlatformClientResolver {
 
   @Mutation(() => [String])
   async deleteFiles(@Args({ type: () => BulkDeleteFilterArgType }) args: BulkDeleteFilterArgType): Promise<string[]> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation DeleteFiles($filter: DeleteFilterArgType) {
           deleteFiles(filter: $filter)
         }
-    `,
+      `,
       variables: {
-       filter: args.filter
+        filter: args.filter,
       },
-      },
-    );
+    });
 
     return data?.deleteFiles;
   }
 
-  @Mutation(() => CreateUserInvitesModel, { nullable:true })
-  async sendUserInvites(
-    @Args({ name: 'userInvites', type: () => UserInvitesCreateDto })
-    userInvites: UserInvitesCreateDto,
-  ):  Promise<CreateUserInvitesModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
-        mutation CreateUserInvites($userInvites: UserInvitesCreateDto!) {
-          sendUserInvites(userInvites: $userInvites) {
-            success {
-              id
-              email
-              firstName
-              lastName
-              status
-              createdAt
-            }
-            errors {
-              error
-              email
-            }
-          }
-        }
-    `,
-      variables: {
-        userInvites
-      },
-      },
-    );
-
-    return data?.sendUserInvites;
-  }
-
-  @Mutation(() => UserPlatformInviteModel, { nullable:true })
-  async resendUserInvite(
-    @Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string
-  ):  Promise<UserPlatformInviteModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
-        mutation ResendUserInvite($id: ID!) {
-          resendUserInvite(id: $id) {
-            id
-            status
-            userToken {
-              id
-              validTill
-              userId
-              user {
-                id
-                email
-              }
-            }
-            createdByUserId
-            createdBy {
-              id
-              email
-            }
-            userTokenId
-          }
-        }
-    `,
-      variables: {
-       id
-      },
-      },
-    );
-
-    return data.resendUserInvite;
-  }
-
-  @Mutation(() => UserPlatformInviteModel, { nullable:true })
-  async cancelUserInvite(
-    @Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string,
-  ):  Promise<UserPlatformInviteModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
-        mutation CancelUserInvite($id: ID!) {
-          cancelUserInvite(id: $id) {
-            id
-            status
-            statusUpdatedAt
-          }
-        }
-    `,
-      variables: {
-       id
-      },
-      },
-    );
-
-    return data?.cancelUserInvite;
-  }
-
-  @Mutation(() => UserFileModel, { nullable:true })
+  @Mutation(() => UserFileModel, { nullable: true })
   async updateFile(
     @Args({ name: 'fileId', type: () => ID }, ParseUUIDStringPipe) fileId: string,
     @Args({ name: 'updateFileDto', type: () => FileUpdateDto })
     updateFileDto: FileUpdateDto,
-  ):  Promise<UserFileModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+  ): Promise<UserFileModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation updateFile($fileId: ID!, $updateFileDto: FileUpdateDto!) {
           updateFile(fileId: $fileId, updateFileDto: $updateFileDto) {
             id
             name
           }
         }
-    `,
+      `,
       variables: {
         fileId,
-        updateFileDto
+        updateFileDto,
       },
-      },
-    );
+    });
     return data?.updateFile;
   }
 
-  @Mutation(() => UserFileModel, { nullable:true })
-  async makeFilePublic(@Args({ name: 'fileId', type: () => ID }, ParseUUIDStringPipe) id: string): Promise<UserFileModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+  @Mutation(() => UserFileModel, { nullable: true })
+  async makeFilePublic(
+    @Args({ name: 'fileId', type: () => ID }, ParseUUIDStringPipe) id: string,
+  ): Promise<UserFileModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation makeFilePublic($id: ID!) {
           makeFilePublic(fileId: $id) {
             id
@@ -312,12 +220,11 @@ export class PlatformClientResolver {
             isPublic
           }
         }
-    `,
+      `,
       variables: {
-        id
+        id,
       },
-      },
-    );
+    });
 
     return data?.makeFilePublic;
   }
@@ -349,83 +256,76 @@ export class PlatformClientResolver {
     @Args({ name: 'fileId', type: () => ID }, ParseUUIDStringPipe) fileId: string,
     @Args({ name: 'status', type: () => FileStatusEnum }) status: FileStatusEnum,
   ): Promise<UserFileModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
-        mutation UpdateFileStatusMutation($fileId: ID!, $status: FileStatusEnum!){
-          updateFileStatus(fileId: $fileId, status: $status){
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
+        mutation UpdateFileStatusMutation($fileId: ID!, $status: FileStatusEnum!) {
+          updateFileStatus(fileId: $fileId, status: $status) {
             id
             status
             url
           }
         }
-    `,
+      `,
       variables: {
-        fileId, status
+        fileId,
+        status,
       },
-      },
-    );
+    });
 
-     return data.updateFileStatus;
-   }
+    return data.updateFileStatus;
+  }
 
   @Mutation(() => Boolean)
-  async markAllAsReadNotification():  Promise<boolean> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+  async markAllAsReadNotification(): Promise<boolean> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation MarkAllAsReadNotification {
           markAllAsReadNotification
         }
-    `
-      },
-    );
+      `,
+    });
 
     return data?.markAllAsReadNotification;
   }
 
-  @Mutation(() => NotificationWebModel, { nullable:true })
+  @Mutation(() => NotificationWebModel, { nullable: true })
   async markAsUnreadNotification(
     @Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string,
-  ):  Promise<NotificationWebModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+  ): Promise<NotificationWebModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation markAsUnreadNotification($id: ID!) {
           markAsUnreadNotification(id: $id) {
             id
             read
           }
         }
-    `,
-    variables: {
-      id
-    },
+      `,
+      variables: {
+        id,
       },
-    );
+    });
 
     return data?.markAsUnreadNotification;
   }
 
-  @Mutation(() => NotificationWebModel, { nullable:true })
+  @Mutation(() => NotificationWebModel, { nullable: true })
   async markAsReadNotification(
     @Args({ name: 'id', type: () => ID }, ParseUUIDStringPipe) id: string,
-  ):  Promise<NotificationWebModel> {
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+  ): Promise<NotificationWebModel> {
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation markAsReadNotification($id: ID!) {
           markAsReadNotification(id: $id) {
             id
             read
           }
         }
-    `,
-    variables: {
-      id
-    },
+      `,
+      variables: {
+        id,
       },
-    );
+    });
 
     return data?.markAsReadNotification;
   }
@@ -438,10 +338,8 @@ export class PlatformClientResolver {
     })
     notificationTypeUserPreferenceData: NotificationTypeUserPreferenceUpsertDto,
   ): Promise<NotificationTypeUserPreferenceModel> {
-
-    const { data:data } = await this.platformClientService.request(
-      {
-        mutation: gql`
+    const { data: data } = await this.platformClientService.request({
+      mutation: gql`
         mutation UpsertNotificationTypeUserPreference(
           $web: Boolean!
           $mail: Boolean!
@@ -449,12 +347,7 @@ export class PlatformClientResolver {
           $id: ID
         ) {
           upsertNotificationTypeUserPreference(
-            notificationTypeUserPreference: {
-              id: $id
-              web: $web
-              mail: $mail
-              notificationTypeId: $notificationTypeId
-            }
+            notificationTypeUserPreference: { id: $id, web: $web, mail: $mail, notificationTypeId: $notificationTypeId }
           ) {
             id
             web
@@ -464,12 +357,11 @@ export class PlatformClientResolver {
             notificationTypeId
           }
         }
-    `,
-    variables: {
-      ...notificationTypeUserPreferenceData
-    },
+      `,
+      variables: {
+        ...notificationTypeUserPreferenceData,
       },
-    );
+    });
 
     return data?.upsertNotificationTypeUserPreference;
   }
@@ -484,7 +376,8 @@ export class PlatformClientResolver {
       {
         query: gql`
         query notificationTypeCategories {
-          notificationTypeCategories{data {
+          notificationTypeCategories {
+            data {
               id
               key
               description
@@ -507,22 +400,20 @@ export class PlatformClientResolver {
                   }
                 }
               }
-            }}
+            }
           }
-    `,
-    variables: {
-      args
-    },
+        }
+      `,
+      variables: {
+        args,
       },
-    );
+    });
 
     return {
-      totalCount:data.totalCount,
-      data: data.notificationTypeCategories.data.map(
-        (notificationTypeCategoryEntity) => plainToClass(
-          NotificationTypeCategoryModel, notificationTypeCategoryEntity
-        )
+      totalCount: data.totalCount,
+      data: data.notificationTypeCategories.data.map((notificationTypeCategoryEntity) =>
+        plainToClass(NotificationTypeCategoryModel, notificationTypeCategoryEntity),
       ),
     };
-}
+  }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UtilityService } from '@roq/core';
 import { UserNotFoundException } from 'src/library/exception';
-import { UtilityService } from 'src/library/services';
 import { UserCreateDto, UserUpdateDto } from 'src/user/dtos';
 import { UserEntity } from 'src/user/entities';
 import { UserFindQueryInterface } from 'src/user/interfaces';

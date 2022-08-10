@@ -9,7 +9,7 @@ import {
   IsString,
   MaxLength,
 } from '@roq/class-validator';
-import { Trim } from 'src/library/decorators';
+import { Trim } from '@roq/core';
 
 @InputType()
 export class UserCreateDto {

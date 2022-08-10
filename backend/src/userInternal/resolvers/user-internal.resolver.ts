@@ -1,22 +1,18 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Info, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Loader } from '@roq/nestjs-dataloader';
+import { Loader, MultipleLoader, ParseUUIDStringPipe, PlatformSpaceClientService, UtilityService } from '@roq/core';
 import { plainToClass } from 'class-transformer';
 import * as DataLoader from 'dataloader';
 import { GraphQLResolveInfo } from 'graphql';
 import { CurrentUser } from 'src/auth/decorators';
 import { JwtAuthGuard } from 'src/auth/guards';
 import { UserNotFoundException } from 'src/library/exception';
-import { ParseUUIDStringPipe } from 'src/library/pipes';
-import { UtilityService } from 'src/library/services';
-import { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services';
 import { UserArgType, UserLoginHistoryArgType, UserUpdateDto } from 'src/user/dtos';
 import { UserEntity, UserLoginHistoryEntity } from 'src/user/entities';
 import { UserLoginHistoryFindQueryInterface } from 'src/user/interfaces';
-import { UserUserLoginHistoryLoader } from 'src/user/loaders';
 import { UserLoginHistoryModel, UserLoginHistoryPageModel, UserModel, UserPageModel } from 'src/user/models';
-import { UserRepository } from 'src/user/repositories';
+import { UserLoginHistoryRepository, UserRepository } from 'src/user/repositories';
 import { UserService } from 'src/user/services';
 import { USER_AVATAR_CATEGORY, USER_FILE_CATEGORY } from 'src/userInternal/constants';
 import { UserFileCreateDto } from 'src/userInternal/dtos';
@@ -88,7 +84,7 @@ export class UserInternalResolver {
   async userLoginHistories(
     @Args({ type: () => UserLoginHistoryArgType }) args: UserLoginHistoryArgType,
     @Parent() userModel: UserModel,
-    @Loader(UserUserLoginHistoryLoader)
+    @MultipleLoader({ repository: UserLoginHistoryRepository, relationProperty: 'userId' })
     userUserLoginHistoryLoader: DataLoader<UserLoginHistoryFindQueryInterface, UserLoginHistoryEntity[]>,
     @Info() info: GraphQLResolveInfo,
   ): Promise<UserLoginHistoryPageModel> {

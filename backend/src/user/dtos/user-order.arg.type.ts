@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDefined, IsEnum } from '@roq/class-validator';
-import { OrderEnum } from 'src/library/enums';
+import { OrderEnum } from '@roq/core';
 import { UserOrderSortEnum } from 'src/user/enums';
 
 @InputType()

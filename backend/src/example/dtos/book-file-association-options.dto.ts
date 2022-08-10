@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional } from 'class-validator';
+import { IsOptional } from '@roq/class-validator';
 
 @InputType()
 export class BookFileAssociationOptionsDto {

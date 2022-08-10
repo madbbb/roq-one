@@ -1,7 +1,7 @@
 import { ArgsType, Field } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
 import { ValidateNested } from '@roq/class-validator';
-import { BaseArgType } from 'src/library/argTypes';
+import { BaseArgType } from '@roq/core';
+import { Type } from 'class-transformer';
 import { UserFilterArgType, UserOrderArgType, UserSearchArgType } from 'src/user/dtos';
 
 @ArgsType()

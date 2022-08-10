@@ -1,8 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDefined, IsEnum } from '@roq/class-validator';
-
-import { NotificationTypeCategorySearchKeyEnum } from '../platformNotificationClient/enums';
-
+import { NotificationTypeCategorySearchKeyEnum } from '@roq/core';
 
 @InputType()
 export class NotificationTypeCategorySearchArgType {

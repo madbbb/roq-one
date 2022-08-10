@@ -1,6 +1,6 @@
 import { ArgsType, Field } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
 import { ValidateNested } from '@roq/class-validator';
+import { Type } from 'class-transformer';
 import { AuthorFilterArgType } from 'src/example/dtos';
 
 @ArgsType()

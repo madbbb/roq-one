@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EntityListenerModule, LibraryModule } from '@roq/core';
 import { camelCase } from 'lodash';
-import { EntityListenerModule } from 'src/entityListener';
-import { LibraryModule } from 'src/library';
 import { UserEntity, UserLoginHistoryEntity } from 'src/user/entities';
-import { UserLoader, UserLoginHistoryLoader, UserUserLoginHistoryLoader } from 'src/user/loaders';
 import { UserLoginHistoryRepository, UserRepository } from 'src/user/repositories';
 import { UserLoginHistoryService, UserService } from 'src/user/services';
 
@@ -16,7 +14,7 @@ import { UserLoginHistoryService, UserService } from 'src/user/services';
     EntityListenerModule.registerAsync([
       {
         name: UserEntity.name,
-        useFactory: (configService: ConfigService) => ({
+        useFactory: async (configService: ConfigService) => ({
           entity: UserEntity,
           excludedFields: configService.get(`application.entityListener.excludedFields.${camelCase(UserEntity.name)}`),
         }),
@@ -24,7 +22,7 @@ import { UserLoginHistoryService, UserService } from 'src/user/services';
       },
     ]),
   ],
-  providers: [UserService, UserLoader, UserLoginHistoryService, UserLoginHistoryLoader, UserUserLoginHistoryLoader],
+  providers: [UserService, UserLoginHistoryService],
   exports: [TypeOrmModule, UserService, UserLoginHistoryService],
   controllers: [],
 })

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NestDataLoader } from '@roq/nestjs-dataloader';
+import { NestDataLoader } from '@roq/core';
 import * as DataLoader from 'dataloader';
 import * as _ from 'lodash';
 import { BookFileFindQueryInterface } from 'src/example/interfaces';

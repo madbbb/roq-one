@@ -1,11 +1,11 @@
 // eslint-disable-next-line @roq/filename-suffix-mismatch
 import { NestFactory } from '@nestjs/core';
 import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from '@nestjs/graphql';
+import { DateScalar, JsonObjectScalar } from '@roq/core';
 import { readdirSync, statSync, writeFileSync } from 'fs';
 import { printSchema } from 'graphql';
 import * as _ from 'lodash';
 import { join } from 'path';
-import { DateScalar, JsonObjectScalar } from 'src/library/scalars';
 
 /**
   * Traverse through folders and sub folders of currentDirectoryPath recursively
