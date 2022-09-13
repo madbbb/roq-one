@@ -12,8 +12,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.13"
-          cache: "npm"
-          cache-dependency-path: "backend/package-lock.json"
+          # cache: "npm"
+          # cache-dependency-path: "backend/package-lock.json"
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
