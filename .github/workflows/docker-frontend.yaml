@@ -4,8 +4,13 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: ghcr.io
+  API_KEY: ${{ secrets.API_KEY }}
   IMAGE_NAME: ${{ github.repository }}-frontend
+  NEXT_PUBLIC_BACKEND_URL: https://roq-core-snapshot-backend.roq-one.com
+  NEXT_PUBLIC_PLATFORM_URL: https://roq-core-snapshot-gateway.roq-platform.com/v01
+  NEXTAUTH_URL: https://roq-core-snapshot-frontend.roq-one.com
+  REGISTRY: ghcr.io
+  TENANT_ID: ${{ secrets.TENANT_ID }}
 
 jobs:
   build-and-push-image:
@@ -28,6 +33,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
+          build-args: API_KEY, IMAGE_NAME, NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_PLATFORM_URL, NEXTAUTH_URL, TENANT_ID
           context: .
           file: frontend/Dockerfile
           push: true
