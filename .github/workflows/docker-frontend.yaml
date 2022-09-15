@@ -35,7 +35,6 @@ jobs:
         with:
           build-args: |
             API_KEY
-            IMAGE_NAME
             NEXT_PUBLIC_BACKEND_URL
             NEXT_PUBLIC_PLATFORM_URL
             NEXTAUTH_URL
