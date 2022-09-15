@@ -33,7 +33,13 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          build-args: API_KEY, IMAGE_NAME, NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_PLATFORM_URL, NEXTAUTH_URL, TENANT_ID
+          build-args: |
+            API_KEY
+            IMAGE_NAME
+            NEXT_PUBLIC_BACKEND_URL
+            NEXT_PUBLIC_PLATFORM_URL
+            NEXTAUTH_URL
+            TENANT_ID
           context: .
           file: frontend/Dockerfile
           push: true
