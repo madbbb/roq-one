@@ -31,4 +31,4 @@ jobs:
           context: .
           file: backend/Dockerfile
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.IMAGE_NAME }}:latest
